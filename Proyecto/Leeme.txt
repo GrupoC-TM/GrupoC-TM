@@ -1,0 +1,21 @@
+
+Integrantes:
+
+Sebastián Mauriz
+Luciano Grilli
+Mauro Candia
+Joaquín Roza
+
+
+
+                       Proyecto Programa delivery de sushi
+
+El presente proyecto se trata de elaborar un programa para la gestión de un negocio elaborador de Sushi que hace envíos a domicilio.
+El programa se hará para proveer al negocio las herramientas necesarias para la toma de pedidos, 
+en donde se le pdirán los datos al cliente (direccion, nombre, telefono, etc), cuál va a ser su pedido, 
+con cuanto pagará (mostrando el vuelto a entregar), la hora de entrega etc; 
+además va a llevar una base de datos con el listado de todos los clientes, 
+de los productos unitarios y sus precios;
+mostrará los productos que ofrece el lugar con los precios respectivos; 
+va a ofrecer la posibilidad de poder hacer cambios ya sean para modificar tanto los productos como sus respectivos precios;
+ofrecerá el ingreso con un usuario y contraseña y una interfaz amigable para que los usuarios lo puedan manejar comodamente.
