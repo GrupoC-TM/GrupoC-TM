@@ -18,5 +18,4 @@ mostrará los productos que ofrece el lugar con los precios respectivos;
 va a ofrecer la posibilidad de poder hacer cambios ya sean para modificar tanto los productos como sus respectivos precios;
 ofrecerá el ingreso con un usuario y contraseña y una interfaz amigable para que los usuarios lo puedan manejar comodamente.
 
-El lenguaje propuesto es python y el entorno de desarrollo será visual studio
-
+El lenguaje propuesto es python y el entorno de desarrollo será atom que es un ide creado por github de codigo abierto
