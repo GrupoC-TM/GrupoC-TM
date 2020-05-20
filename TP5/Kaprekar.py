@@ -17,6 +17,22 @@ for x in range(cantCasos):     # iteramos de acuerdo a la cantidad de casos
         numChico = "".join(sorted(numeroIngreso))# aca lo dejamos de menor a mayor
 
         numeroIngreso = int(numGrande) - int(numChico) #restamos ambos numeros
+        if bandera2 == True:  #si el dato ingresado tiene todos los digitos iguales, se asigna un 8 como salida y termina la iteracion
+           i=8
+           bandera2=False
+           break
+
+
+        if bandera == True:  #si el usuario mete como dato la constante, la salida es 0 y termina la iteracion
+           i=0
+           bandera =False
+           break
+
+        if numeroIngreso == numeroResta:  #si numeroIngreso es igual a resta (0) quiere decir que encontro la constante y sale
+
+           break
+
+        numeroResta=numeroIngreso  #volvemos a asignar el 0 a numero resta para que empiece el for otra ves
 
 
 
