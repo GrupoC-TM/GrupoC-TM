@@ -33,6 +33,12 @@ for x in range(cantCasos):     # iteramos de acuerdo a la cantidad de casos
            break
 
         numeroResta=numeroIngreso  #volvemos a asignar el 0 a numero resta para que empiece el for otra ves
+    print("")
+    lista.append(i)  #agregamos a la lista el valor de i que es la cantidad de cada iteracion de cada caso
+
+print("Las iteraciones de cada caso fueron las siguientes: ")
+print(lista[:]) #imprimimos la lista con los valores de cada iteracion (que es la cantidad de iteraciones que le llevó a cada caso obtener la constante de Kaprekar)
+
 
 
 
