@@ -142,4 +142,76 @@ class Program:
                              fg="cyan", font=("Comic Sans MS", 40), borderwidth=7,command=self.validarRegistro)
         self.regist.place(x=70, y=350)
 
-        self.ventana2.mainloop()
+        self.ventana2.mainloop() 
+    def Programa(self):
+
+        #cerrar las posibles ventanas abiertas
+        try:
+            self.cerrarV(self.ventana2)
+        except:
+            self.cerrarV(self.ventanap)
+ 
+        self.ventana3 = Tk()
+        self.ventana3.geometry("800x600")
+        self.ventana3.resizable(False, False)
+
+        interfaz3 = Frame(self.ventana3)
+        interfaz3.config(width=800, height=600)
+
+        interfaz3.config(cursor="hand2")
+        self.ventana3.title("programa")
+        #self.ventana3.iconbitmap("imagenes/icono.ico")
+
+        """
+        #No colocar porque da bugs y errores,es mejor sin fondo
+        # fondo de imagen
+        img = PhotoImage(file="imagenes/fondo.png")
+        fondo = Label(self.ventana3, image=img,
+                      relief=RAISED)#.place(x=-3, y=-2)
+        """             
+        
+
+
+        # codigo botones
+
+        def codigoBotonMostrar():
+            self.texto.delete(1.0, END)
+            self.texto.insert("insert", "boton mostrar-anda")
+
+        def codigoBotonGuardar():
+            self.texto.delete(1.0, END)
+            self.texto.insert("insert", "boton guardar-anda")
+
+
+        # botones
+        mostrar = Button(self.ventana3, text="Mostrar", bg="black", fg="cyan", font=("Comic Sans MS",
+            12),borderwidth=3, command=codigoBotonMostrar).place(x=590, y=250)
+        guardar = Button(self.ventana3, text="Guardar", bg="black", fg="cyan", font=("Comic Sans MS",
+            12),borderwidth=3, command=codigoBotonGuardar).place(x=680, y=250)
+
+        
+        #self.textoT=StringVar()
+        self.texto = Text(self.ventana3, width=33, height=5, bg="white", fg="black", font=("Consolas",30))
+        #texto.place(x=38,y=300)#correcto pos
+        #le saque el textvariable=slef.textoT
+
+        #insertar texto al final, tambien se puede usar 0.0 para el principio
+        #self.texto.insert(tk.END,"aaaa")
+        #self.texto.insert(tk.END,"eeeeeee")
+        #self.texto.insert(tk.END,"\npppppppp")
+        
+
+
+        # correcto posicion de scroll/texto
+        self.texto.grid(row=3, column=2, pady=300, padx=38)
+        
+
+        scrollYComentarios = Scrollbar(self.ventana3, command=self.texto.yview)
+
+        scrollYComentarios.grid(row=3, column=2, pady=300, padx=38, sticky="nse")
+        #scrollYComentarios.grid(row=4, column=1,sticky="nse")
+
+
+        self.texto.config(yscrollcommand=scrollYComentarios.set)
+
+        interfaz3.mainloop()
