@@ -88,3 +88,58 @@ class Program:
 
          
         self.ventanap.mainloop() 
+    def registrar(self):
+        #cerrar ventana principal
+        self.cerrarV(self.ventanap)
+
+        self.ventana2 = Tk()
+        self.ventana2.config(width=420, height=610)
+        self.ventana2.resizable(0, 0)
+        self.ventana2.title("Register user")
+        #self.ventana2.iconbitmap("imagenes/icono.ico")
+        
+        """
+        #No colocar porque da bugs y errores,es mejor sin fondo
+        # fondo de imagen
+        self.img = PhotoImage(file="imagenes/fondoRegister.png")
+        self.fondo = Label(self.ventana2, image=self.img,
+                           relief=RAISED)
+        self.fondo.place(x=-3, y=-2)
+        """
+
+        
+
+        # label user
+        self.user = Label(self.ventana2, text="Usuario: ", bg="black",
+                          fg="azure", font=("Comic Sans MS", 13)).place(x=(190-7), y=40)
+        
+        #campo de texto user
+        self.userTextR=StringVar()
+        self.userIn = Entry(self.ventana2, textvariable=self.userTextR,bg="black",
+                            fg="azure", font=("Courier", 13),borderwidth=3).place(x=(120-7), y=80)
+                          
+
+        # label password
+        self.password = Label(self.ventana2, text="Contraseña: ", bg="black",
+                              fg="azure", font=("Comic Sans MS", 13)).place(x=(175-7), y=140)
+        
+        # campo de texto password
+        self.passTextoR=StringVar()
+        self.passIn = Entry(self.ventana2, textvariable= self.passTextoR, show="*", bg="black",
+                            fg="azure", font=("Arial", 13),borderwidth=3).place(x=(132-7), y=180)
+
+        # re password label
+        self.password2 = Label(self.ventana2 ,text=" Repetir contraseña: ",
+                               bg="black", fg="azure", font=("Comic Sans MS", 13)).place(x=(140-7), y=230)
+        
+        # campo de texto RePassword
+        self.passTextoR2=StringVar()
+        self.passIn2 = Entry(self.ventana2, textvariable= self.passTextoR2, show="*",  bg="black",
+                             fg="azure", font=("Arial", 13),borderwidth=3).place(x=(132-7), y=270)
+
+        #boton registro
+        self.regist = Button(self.ventana2, text="Registrar", bg="black",
+                             fg="cyan", font=("Comic Sans MS", 40), borderwidth=7,command=self.validarRegistro)
+        self.regist.place(x=70, y=350)
+
+        self.ventana2.mainloop()
