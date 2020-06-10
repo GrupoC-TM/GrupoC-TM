@@ -215,3 +215,74 @@ class Program:
         self.texto.config(yscrollcommand=scrollYComentarios.set)
 
         interfaz3.mainloop()
+       
+    def cerrarV(self, vent):
+        vent.destroy()
+
+    def validarUser(self):
+        #colocar el user admin
+        if (self.userText.get() == "a"):
+            print("Logueado correctamente")
+
+            self.Programa()
+        else:
+            print("Usuario incorrecto")    
+            
+    def validarRegistro(self):
+        #crear variables de campo de texto para validar
+        if (self.passTextoR.get() == self.passTextoR2.get()):
+            print("user: ",self.userTextR.get())
+            print("Registrado correctamente! \n pass1: ",self.passTextoR.get(),"\nrePass: ",self.passTextoR2.get())
+            
+            self.login1()
+        else:
+            print("Contraseñas incorrectas!")
+
+    """
+    #estas son funciones para meter datos, es una prueba para ingresar datos a la db
+
+    def RegistrarUserDB(self,user,passw):
+            
+        #crear la conexion
+        miConexion = sqlite3.connect("BDTS.db")
+
+        #crear el cursor
+        miCursor = miConexion.cursor()
+
+        miCursor.execute("INSERT INTO TextUser VALUES(NULL,'user','pass',NULL)")
+        miConexion.commit()
+
+        #siempre cerrar la conexion
+        miConexion.close()
+
+        
+        
+    def LeerUserDB(self,user,passw):
+
+        
+    
+        #crear la conexion
+        miConexion = sqlite3.connect("BDTS.db")
+
+        #crear el cursor
+        miCursor = miConexion.cursor()
+        
+        #devuelve una lista con todo
+        usuariList=miCursor.fetchall()
+        
+
+        #miCursor.execute("INSERT INTO TextUser VALUES(NULL,'user','passw',NULL)")
+        miConexion.commit()
+
+        #siempre cerrar la conexion
+        miConexion.close()  
+
+        return usuario 
+
+        """
+
+
+#creo un objeto de la clase y ejecuto la primera funcion
+inic = Program()
+inic.login1()    
+
