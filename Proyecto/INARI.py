@@ -257,24 +257,24 @@ def Ordenar_pedido():
 
         #(lista) de opciones
         Opciones = [
-            "Sushi bandeja basica (400 ARs)",
-            "Sushi bandeja mediana (900 ARs)",
-            "Sushi bandeja completa (900 ARs)"
+            ("Sushi bandeja basica",400),
+            ("Sushi bandeja mediana" ,900),
+            ("Sushi bandeja completa" ,1200 )
         ]
 
         Cantidad = [
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
         ]
 
 
 
         #para las opciones----------------
-        #crea na variable para alojar string
+        #crea na variable para alojar string de los pedidos
         variable = StringVar(root2)
         #guarda la lista en una variable de tipo string var(como un vector)
         variable.set(Opciones[0]) # valor defecto
@@ -306,11 +306,42 @@ def Ordenar_pedido():
         #por parametro y se ejecuta al presionar el boton_1
         command=lambda :Insertar_en_DB(Entry_1.get(),Entry_2.get(),Entry_3.get(),variable.get(),variableCantidad.get(),Entry_4.get(),"En cocina")#falta dinero y estado
 
+        #------------------------------------------------------------------------------------------------------------------------------------------
+        #agregar labels al carrito:
+
+        total=[]
+        carrito=[]#lista
+
+        #creo variable comando
+        commandAG2= lambda:mostrar()
+
+        #funcion para pintar los labels
+        def mostrar():
+            carrito.append([variable.get(),variableCantidad.get()])
+
+            for i in range(len(carrito)):#hasta el largo del carrito
+
+                label_00=Label(root2,text=str(carrito[i]))#mostrar carrito en posicion i
+                label_00.grid(row=i+5,column=10,padx=10,pady=10)#ubicarlo en columna 5+i
+
+        #sacar el total
+        #total.append(variable.get(1)*variableCantidad.get())
+        #total+= variable.get(1)*variableCantidad.get()
+        #total=(variable.get()*variableCantidad.get())
+            tupla2=(variable.get())
+            print(carrito[0][0][1])
+        #label total
+        label_01=Label(root2,text=("Total: ",total))
+        label_01.grid(row=7,column=3,padx=5,pady=10)
+
+        #-------------------------------------------------------------------------------------------------------------------------------------
+
         #el boton ordenar ejecuta la variable comando y esta ingresa datos en la base de datos
         Button_1=Button(root2,text="Ordenar",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=7,height=3,command=command)
 
         #boton_AG "agregar al carrito", le falta el command
-        Button_AG=Button(root2,text="Agregar al carrito",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",10,"bold"),bg="white",fg="black",borderwidth=4,width=17,height=2)
+        Button_AG=Button(root2,text="Agregar al carrito",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",10,"bold"),bg="white",fg="black",borderwidth=4,width=17,height=2,command=commandAG2)
+
 
 
         #Labels para identificar los campos de texto y el OptionMenu
@@ -334,7 +365,10 @@ def Ordenar_pedido():
         #en el boton AG,hacer el comand para guardar los valores elegios en una lista y que la agrege la la lista
         # y la muestre, todo en una funcion que la va a ejecutar el command del boton AG
 
+
         root2.mainloop()
+
+
 
 #ventana cliente
 def cliente():
