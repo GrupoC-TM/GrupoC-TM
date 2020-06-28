@@ -2,20 +2,22 @@
 from Tkinter import *
 import tkMessageBox
 import sqlite3
+from Bandeja import *
+from Pedidos import *
 
 
 #metodo para insertar valores en la base de datos
-def Insertar_en_DB(Nombre,Email,telefono,tipoPedido,Cantidad,Dinero,Estado):
-        lista=[telefono,Nombre,Email,telefono,tipoPedido,Cantidad,Dinero,Estado]#se crea una lista con los valores recibidos por parametro
+def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
+        lista=[Telefono,Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion]#se crea una lista con los valores recibidos por parametro
         conn=sqlite3.connect('INARI_DB.db')#se hace la coneccion a la base de datos
         c=conn.cursor()#se crea el cursor
         #c.execute('CREATE TABLE Panel(ID INT(10),NAME VARCHAR(30),EMAIL VARCHAR(50),PHONE INT(10),PTYPE INT(2))')
-        c.execute('INSERT INTO Panel VALUES(?,?,?,?,?,?,?,?)',lista)#se inserta en la base de datos la lista con los datos
+        c.execute('INSERT INTO Panel VALUES(?,?,?,?,?,?,?,?,?)',lista)#se inserta en la base de datos la lista con los datos
         conn.commit()#commit de la base de datos
         conn.close()#cerrar la base de datos
 
         #mensaje de el id de la orden(telefono)
-        tkMessageBox.showinfo("","ID de la Orden :"+str(telefono))
+        tkMessageBox.showinfo("","ID de la Orden :"+str(Telefono))
         #print (c.execute('select * from INARI_DB'))
         #print (row)
 
@@ -244,22 +246,32 @@ def Ordenar_pedido():
         root2.geometry(("%dx%d")%(RWidth,RHeight))
         var1=IntVar() #en caso de error descomentar
 
+        #crean los objetos
+        bandeja1 = Bandeja(1,"tabla clasica",400)
+        bandeja2 = Bandeja(2," tabla mediana",900)
+        bandeja3 = Bandeja(3," tabla grande",1200)
+
+        #crear objeto Pedidos
+        pedido1 = Pedidos()
+
         #etiquetas
         label_1=Label(root2,text="Nombre")
         label_2=Label(root2,text="Pedido")
         label_3=Label(root2,text="E-Mail")
         label_4=Label(root2,text="Telefono")
-        label_5=Label(root2,text="Cantidad:")
-        label_6=Label(root2,text="Pago con:")
+        label_5=Label(root2,text="Direccion")
+        label_6=Label(root2,text="Cantidad:")
+        label_7=Label(root2,text="Pago con:")
         label_AG=Label(root2,text="Carrito:")
 
 
 
         #(lista) de opciones
+
         Opciones = [
-            ("Sushi bandeja basica",400),
-            ("Sushi bandeja mediana" ,900),
-            ("Sushi bandeja completa" ,1200 )
+            [bandeja1.posBandeja, bandeja1.tipoBandeja ,bandeja1.precio],
+            [bandeja2.posBandeja,bandeja2.tipoBandeja ,bandeja2.precio],
+            [bandeja3.posBandeja,bandeja3.tipoBandeja ,bandeja3.precio]
         ]
 
         Cantidad = [
@@ -290,21 +302,25 @@ def Ordenar_pedido():
         variableCantidad.set(Cantidad[0]) # valor defecto
 
         #crea el menu deplegable
-        w = OptionMenu( *(root2, variableCantidad) + tuple(Cantidad))
-        w.grid(row=3,column=9,padx=10,pady=10)#se posiciona
+        w2 = OptionMenu( *(root2, variableCantidad) + tuple(Cantidad))
+        w2.grid(row=3,column=9,padx=10,pady=10)#se posiciona
 
 
         #crea los campos de texto
         Entry_1=Entry(root2,width=50)#nombre
         Entry_2=Entry(root2,width=50)#Email
         Entry_3=Entry(root2,width=50)#Telefono
-        Entry_4=Entry(root2,width=20)#dinero
+        Entry_4=Entry(root2,width=50)#direccion
+        Entry_5=Entry(root2,width=20)#pagoCon
 
-
+        #varPedidos = pedido1.listaDePedidos
         #boton_1 "ordenar"
         #crea una variable comando la cual llama a la funcion Insertar_en_DB y le pasa los campos de texto
-        #por parametro y se ejecuta al presionar el boton_1
-        command=lambda :Insertar_en_DB(Entry_1.get(),Entry_2.get(),Entry_3.get(),variable.get(),variableCantidad.get(),Entry_4.get(),"En cocina")#falta dinero y estado
+        #por parametro y se ejecuta al presionar el boton_1,pedido1.listaDePedidos
+        #print(varPedidos)
+
+        #cadena= ', '.join('?' * len(pedido1.listaDePedidos[0]))
+        #command=lambda :Insertar_en_DB(Entry_1.get(),Entry_2.get(),Entry_3.get(),cadena,pedido1.total,Entry_5.get(),"En cocina",Entry_4.get())#falta dinero y estado
 
         #------------------------------------------------------------------------------------------------------------------------------------------
         #agregar labels al carrito:
@@ -314,6 +330,7 @@ def Ordenar_pedido():
 
         #creo variable comando
         commandAG2= lambda:mostrar()
+
 
         #funcion para pintar los labels
         def mostrar():
@@ -325,19 +342,37 @@ def Ordenar_pedido():
                 label_00.grid(row=i+5,column=10,padx=10,pady=10)#ubicarlo en columna 5+i
 
         #sacar el total
-        #total.append(variable.get(1)*variableCantidad.get())
-        #total+= variable.get(1)*variableCantidad.get()
-        #total=(variable.get()*variableCantidad.get())
-            tupla2=(variable.get())
-            print(carrito[0][0][1])
-        #label total
-        label_01=Label(root2,text=("Total: ",total))
-        label_01.grid(row=7,column=3,padx=5,pady=10)
+
+            listaPedidos = []
+
+            listaPedidos.append(variable.get())
+            #listaPedidos[0]=variable.get()
+
+            #print(int(listaPedidos[0][2]))#obtener el numero de la orden
+            total = 0
+
+            #devuelve el precio de la bandeja seleccionada por la cantidad
+            total += tomarSeleccion(int(listaPedidos[0][1]))*int(variableCantidad.get())
+            pedido1.total+=total
+
+            #total += tomarSeleccion(int())*int(variableCantidad.get())
+            #print(listaPedidos[0][1])
+
+            #label total
+            label_01=Label(root2,text=("Total: ",sacarTotal(total)))
+            label_01.grid(row=7,column=4,padx=5,pady=10)
+
+            #mostrar en consola resultados
+            print("\nPedidos")
+            for er in pedido1.listaDePedidos:
+                print(er)
+            #print(pedido1.listaDePedidos)
+            print("Total:",pedido1.total)
 
         #-------------------------------------------------------------------------------------------------------------------------------------
 
         #el boton ordenar ejecuta la variable comando y esta ingresa datos en la base de datos
-        Button_1=Button(root2,text="Ordenar",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=7,height=3,command=command)
+        #Button_1=Button(root2,text="Ordenar",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=7,height=3,command=command)
 
         #boton_AG "agregar al carrito", le falta el command
         Button_AG=Button(root2,text="Agregar al carrito",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",10,"bold"),bg="white",fg="black",borderwidth=4,width=17,height=2,command=commandAG2)
@@ -345,29 +380,100 @@ def Ordenar_pedido():
 
 
         #Labels para identificar los campos de texto y el OptionMenu
-        label_1.grid(row=2,column=2,padx=10,pady=10)
-        label_2.grid(row=3,column=2,padx=10,pady=10)
-        label_3.grid(row=4,column=2,padx=10,pady=10)
-        label_4.grid(row=5,column=2,padx=10,pady=10)
-        label_5.grid(row=3,column=6,padx=10,pady=10)
-        label_6.grid(row=6,column=2,padx=10,pady=10)
-        label_AG.grid(row=4,column=10,padx=10,pady=10)
+        label_1.grid(row=2,column=2,padx=10,pady=10)#nombre
+        label_2.grid(row=3,column=2,padx=10,pady=10)#pedido
+        label_3.grid(row=4,column=2,padx=10,pady=10)#EMail
+        label_4.grid(row=5,column=2,padx=10,pady=10)#telefono
+        label_5.grid(row=6,column=2,padx=10,pady=10)#Direccion
+        label_6.grid(row=3,column=6,padx=10,pady=10)#Cantidad
+        label_7.grid(row=7,column=2,padx=10,pady=10)#PagoCon
+        label_AG.grid(row=4,column=10,padx=10,pady=10)#Carrito
 
         #posicionamiento de entradas(campo de texto) y boton
         Entry_1.grid(row=2,column=3,padx=10,pady=10,columnspan=3)#Nombre
         Entry_2.grid(row=4,column=3,padx=10,pady=10,columnspan=3)#Email
         Entry_3.grid(row=5,column=3,padx=10,pady=10,columnspan=3)#Telefono
-        Entry_4.grid(row=6,column=2,padx=0,pady=10,columnspan=3)#pago con
-        Button_1.grid(row=7,column=2,padx=10,pady=10)#Ordenar
+        Entry_4.grid(row=6,column=3,padx=10,pady=10,columnspan=3)#direccion
+        Entry_5.grid(row=7,column=2,padx=0,pady=10,columnspan=3)#pagoCon
+        #Button_1.grid(row=8,column=2,padx=10,pady=10)#Ordenar
         Button_AG.grid(row=3,column=10,padx=10,pady=10)#agregar al carrito
 
         #agregar codigo para mostrar la lista del carrito,hacer con una lista y mostrarla con un for,
         #en el boton AG,hacer el comand para guardar los valores elegios en una lista y que la agrege la la lista
         # y la muestre, todo en una funcion que la va a ejecutar el command del boton AG
 
+        #funcion para validar la bandeja y retornar su valor,tambien agrega a al objeto pedidos_realizados
+        #los pedidos realizados
+        def tomarSeleccion(seleccion):
+
+            if(seleccion == 1):
+
+                bandeja1.cantidad=variableCantidad.get()#guarda la cantidad seleccionada
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append([bandeja1.posBandeja,bandeja1.tipoBandeja,bandeja1.precio,bandeja1.cantidad])
+                return int(400)#retorna el precio depende de la opcion elegida para sacar el total
+
+            if(seleccion == 2):
+
+                bandeja2.cantidad=variableCantidad.get()#guarda la cantidad seleccionada
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append([bandeja2.posBandeja,bandeja2.tipoBandeja,bandeja2.precio,bandeja2.cantidad])
+                return int(900)#retorna el precio depende de la opcion elegida para sacar el total
+
+            if(seleccion == 3):
+
+                bandeja3.cantidad=variableCantidad.get()#guarda la cantidad seleccionada
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append([bandeja3.posBandeja,bandeja3.tipoBandeja,bandeja3.precio,bandeja3.cantidad])
+                return int(1200)#retorna el precio depende de la opcion elegida para sacar el total
+
+
+        #funcion para sacar total
+        def sacarTotal(numero):
+            total.append(numero)
+            aux = 0
+            for n in total:
+                aux+=n
+            return aux
+
+        #prueba
+        #cadena= " ".join(pedido1.listaDePedidos[0])
+        #command=lambda :Insertar_en_DB(Entry_1.get(),Entry_2.get(),Entry_3.get(),cadena,pedido1.total,Entry_5.get(),"En cocina",Entry_4.get())#falta dinero y estado
+        """
+        def botonOrdenar():
+            #cadena= " ".join(pedido1.listaDePedidos[0])
+            cadena=str(pedido1.listaDePedidos)
+            Insertar_en_DB(Entry_1.get(),Entry_2.get(),Entry_3.get(),cadena,pedido1.total,Entry_5.get(),"En cocina",Entry_4.get())#falta dinero y estado
+        """
+
+        commandAux =lambda: botonOrdenar(Entry_1.get(),Entry_2.get(),Entry_3.get(),pedido1.listaDePedidos,pedido1.total,Entry_5.get(),"En cocina",Entry_4.get())
+        Button_1=Button(root2,text="Ordenar",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=7,height=3,command=commandAux)
+
+        Button_1.grid(row=8,column=2,padx=10,pady=10)#Ordenar
+        """
+        def botonOrdenar():
+            cadena= " ".join(pedido1.listaDePedidos[0])
+            commandOrdenar=lambda :Insertar_en_DB(Entry_1.get(),Entry_2.get(),Entry_3.get(),cadena,pedido1.total,Entry_5.get(),"En cocina",Entry_4.get())#falta dinero y estado
+            return commandOrdenar
+        """
 
         root2.mainloop()
 
+def botonOrdenar(Nombre,Email,Telefono,pedido,costo,pagoCon,Estado,direccion):
+    cadena=" "
+    #guardar el pedido y la cantidad
+    #cadena = str(pedido[0][1])+" x"+str(pedido[0][3])
+    count=0
+
+    #guardan en la cadena el pedido y cantidad hasta que de error de exceder el index
+    for item in pedido:
+        try:#                   pedido                                  cantidad
+            cadena += str(pedido[count][1])+" x"+str(pedido[count][3])+" | "
+            count+=1
+        except Exception as e:
+            break
+
+    Insertar_en_DB(Nombre,Email,Telefono,cadena,costo,pagoCon,Estado,direccion)
 
 
 #ventana cliente
