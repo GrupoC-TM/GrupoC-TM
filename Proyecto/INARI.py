@@ -11,7 +11,7 @@ def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
 
         #se crea una lista con los valores recibidos por parametro
         #en este caso el ID(posicion 1) es el mismo que el telefono para
-        #que el usuario no se olvide de su id al mosmento de ver el estado de su pedido
+        #que el usuario no se olvide de su id al momento de ver el estado de su pedido
         lista=[Telefono,Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion]
 
         #se hace la coneccion a la base de datos
@@ -29,17 +29,17 @@ def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
         #cerrar la base de datos
         conn.close()
 
-        #mensaje de que se la realizado la orden con exito!
+        #mensaje de que se ha realizado la orden con exito!
         tkMessageBox.showinfo("","Orden realizada! \nID de la Orden: "+str(Telefono))
         #print (c.execute('select * from INARI_DB'))
         #CONSOLA_MOSTRAR
 
 
 
-#funcion para insertar en la tabla estado el idy estado de un pedido cuando es despachado
+#funcion para insertar en la tabla estado del id y estado de un pedido cuando es despachado
 def insertar_en_Estado(ID,Estado):
 
-    #se pasa las variables a una lista porque sino el INSERT a la db da error
+    #se pasan las variables a una lista porque sino el INSERT a la db da error
     lista=[ID,Estado]
 
     #se crea la variable coneccion
@@ -78,7 +78,7 @@ def Borrar_en_DB(pid):
             #se selecciona la fila donde coincide el id ( lpid )
             c.execute('select * from Panel  where ID=(?)',lpid)
 
-            #fetchmany obtiene la fila  en la posicion del que indicamos arriba con el cursor
+            #fetchmany obtiene la fila  en la posicion que indicamos arriba con el cursor
             list1=c.fetchmany()
 
             #CONSOLA_MOSTRAR
@@ -104,10 +104,10 @@ def Borrar_en_DB(pid):
             #cerrar base de datos
             conn.close()
 
-        #en caso de que no exista el ide en la tabla principal puede que el pedido1
+        #en caso de que no exista el ID en la tabla principal puede que el pedido1
         #ya haya sido despachado,al despachar se envia el id y estado modificado
         #a otra tabla (Estado) para que el usuario vea el estado del pedido.
-        #entonces borramos de etsta tabla tambien el pedido
+        #entonces borramos de esta tabla tambien el pedido
         except IndexError as e:
 
             try:
@@ -123,7 +123,7 @@ def Borrar_en_DB(pid):
                 #cerrar base de datos
                 conn.close()
 
-                tkMessageBox.showinfo("","ID de la orden:  "+str(pid)+" ha sido candelada!")
+                tkMessageBox.showinfo("","ID de la orden:  "+str(pid)+" ha sido cancelada!")
 
             #en caso de que no exista en ninguna de las tablas entonces el id ingresado
             #es incorrecto,por lo tanto no existe pedido con ese id
@@ -147,7 +147,7 @@ def cancelar_pedido():
         #ejecuta el command anterior
         Button_1=Button(root,text="Cancelar pedido",command=command)
 
-        #posicion de lementos
+        #posicion de elementos
         label_1.grid(row=2,column=2,padx=10,pady=10)
         Entry_1.grid(row=2,column=3,padx=10,pady=10,columnspan=3)
         Button_1.grid(row=4,column=2,padx=10,pady=10)
@@ -156,7 +156,7 @@ def cancelar_pedido():
         root.mainloop()
 
 
-#funcion que muestrala interfaz de pedidos realizados
+#funcion que muestra la interfaz de pedidos realizados
 def pedidos_realizados():
         #configuracion basica de la ventana
         root1=Tk()
@@ -287,13 +287,13 @@ def pedidos_realizados():
         #funcion para modificar el estado y despachar de la lista de pedidos
         def estado():
 
-            #for each que se trae todo de Estado y reccorre cada fila con el objeto "id"
+            #for each que se trae todo de Estado y recorre cada fila con el objeto "id"
             for id in c.execute('select * from Estado'):
 
                 #si el id actual es igual al id seleccionado
                 if(id[0]==int(variable.get())):
 
-                    #guardo en una lista es estado y el id para el update,ya que solo recibe 2 parametros el execute
+                    #guardo en una lista el estado y el id para el update,ya que solo recibe 2 parametros el execute
                     list3=["En camino",id[0]]#Id actual
 
                     #actualizo el estado del pedido y le paso la lista
@@ -306,14 +306,14 @@ def pedidos_realizados():
             #for each que se trae todo de panel y recorre cada fila con el objeto id
             for id in c.execute('select * from Panel'):
 
-                #si el id actual es igual al ide seleccionado
+                #si el id actual es igual al id seleccionado
                 if(id[0]==int(variable.get())):
 
                     #siempre tengo que hacer una lista porque sino la base de datos da error
                     #*insertar una lista
                     listNum=[id[0]]
 
-                    #borron de Panel la fila en la cual tengo el id en la listaNum
+                    #borro de Panel la fila en la cual tengo el id en la listaNum
                     c.execute('DELETE FROM Panel where ID =  (?)',listNum)
 
                     #commit final de la base de datos
@@ -381,7 +381,7 @@ def track_pedido():
         #mostrar estado del pedido
         def traerEstado(id):
 
-            #si el pedido esta cambia a true
+            #si el pedido esta, cambia a true
             validador = FALSE
 
             #buscar en db la columna del id en la tabla Estado
@@ -417,7 +417,7 @@ def ordenes_canceladas():
         root1.geometry(("%dx%d")%(RWidth,RHeight))
 
         #Etiqueta del titulo
-        label_1=Label(root1,text="Ordenes Caceladas:")
+        label_1=Label(root1,text="Ordenes Canceladas:")
         label_1.grid(row=2,column=2,padx=10,pady=10)
 
 
@@ -427,7 +427,7 @@ def ordenes_canceladas():
         #crea la variable con la coneccion y el cursor
         c=conn.cursor()
 
-        n=6#variable contador para mostrar etiquedas en cada fila despues
+        n=6#variable contador para mostrar etiquetas en cada fila despues
 
         #labels base y sus posicionamientos
         label_2=Label(root1,text="ID")
@@ -448,7 +448,7 @@ def ordenes_canceladas():
         label_7=Label(root1,text="Total")
         label_7.grid(row=4,column=6,padx=10,pady=10)
 
-        #muestra todas las ordenes canceladas hasta el fiinal, agregando labels automatico
+        #muestra todas las ordenes canceladas hasta el final, agregando labels automatico
         for row1 in c.execute('select * from Cancelado'):
                 n+=1
 
@@ -492,7 +492,7 @@ def Ordenar_pedido():
         var1=IntVar() #en caso de error descomentar
 
         #crean los objetos de las bandejas
-        bandeja1 = Bandeja(1,"tabla clasica",400)
+        bandeja1 = Bandeja(1," tabla clasica",400)
         bandeja2 = Bandeja(2," tabla mediana",900)
         bandeja3 = Bandeja(3," tabla grande",1200)
 
@@ -595,7 +595,7 @@ def Ordenar_pedido():
                 #mostrar el pedido del carrito en posicion i
                 label_00=Label(root2,text=str(carrito[i]))
 
-                #ubicarlo en columna 5+i ,( 5 porque el la etiqueta carrito esta en la fila 5)
+                #ubicarlo en columna 5+i ,( 5 porque en la etiqueta, carrito esta en la fila 5)
                 #y se muestra un label por fila
                 label_00.grid(row=i+5,column=10,padx=10,pady=10)
 
@@ -613,8 +613,8 @@ def Ordenar_pedido():
             #se ejecuta la funcion tomarSeleccion que toma un int que es el primer numero
             #que identifica la tabla de la listaPedidos por eso su posicion [0][1] por
             #la cantidad seleccionada en el menu cantidad pero casteado a int.
-            #la funcion toma ese valor y los devuelve el valor de la bandeja.
-            #depende el valor ingresado,son los valores que devuelvey los multiplica
+            #la funcion toma ese valor y nos devuelve el valor de la bandeja.
+            #depende el valor ingresado,son los valores que devuelve y los multiplica
             #por la seleccion que hay en el menu de cantidad.todo se suma en total
             total += tomarSeleccion(int(listaPedidos[0][1]))*int(variableCantidad.get())
 
@@ -695,7 +695,7 @@ def Ordenar_pedido():
 
 
 
-        #funcion para validar la bandeja y retornar su valor,tambien agrega a al objeto pedidos_realizados
+        #funcion para validar la bandeja y retornar su valor,tambien agrega al objeto pedidos_realizados
         #los pedidos realizados
         def tomarSeleccion(seleccion):
 
@@ -748,13 +748,21 @@ def Ordenar_pedido():
         #command que inserta en la base de datos todos los datos al dar click en Ordenar
         commandAux =lambda: botonOrdenar(Entry_1.get(),Entry_2.get(),Entry_3.get(),pedido1.listaDePedidos,pedido1.total,Entry_5.get(),"En cocina",Entry_4.get())
 
+        #comando que destruye la ventana al apretar Salir
+        commandSalir = lambda:destruir_ventana(root2)
+
         #boton ordenar
         Button_1=Button(root2,text="Ordenar",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=7,height=3,command=commandAux)
         #posiccion
         Button_1.grid(row=8,column=2,padx=10,pady=10)
 
+        #boton salir de la ventana
+        Button_Salir =Button(root2,text="Salir",activebackground="khaki1",relief=SUNKEN,font=("AndaleMono",14,"bold"),borderwidth=4,bg="white",fg="black",width=5,height=2,command=commandSalir)
 
+        #posicionamiento del boton salir
+        Button_Salir.grid(row=1,column=2,padx=30,pady=10)
         root2.mainloop()
+
 
 #funcion que inserta los datos en la base de datos
 def botonOrdenar(Nombre,Email,Telefono,pedido,costo,pagoCon,Estado,direccion):
