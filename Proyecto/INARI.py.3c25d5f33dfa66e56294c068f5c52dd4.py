@@ -287,13 +287,13 @@ def pedidos_realizados():
         BotonDespachar.grid(row=3,column=12,padx=10,pady=10)
 
         #funcion para modificar el estado y despachar de la lista de pedidos
-def estado():
+        def estado():
 
             #for each que se trae todo de Estado y recorre cada fila con el objeto "id"
-        for id in c.execute('select * from Estado'):
+            for id in c.execute('select * from Estado'):
 
                 #si el id actual es igual al id seleccionado
-            if(id[0]==int(variable.get())):
+                if(id[0]==int(variable.get())):
 
                     #guardo en una lista el estado y el id para el update,ya que solo recibe 2 parametros el execute
                     list3=["En camino",id[0]]#Id actual
@@ -306,10 +306,10 @@ def estado():
 
             #eliminar el pedido de la lista de pedidos al apretar el boton despacharPedido
             #for each que se trae todo de panel y recorre cada fila con el objeto id
-        for id in c.execute('select * from Panel'):
+            for id in c.execute('select * from Panel'):
 
                 #si el id actual es igual al id seleccionado
-            if(id[0]==int(variable.get())):
+                if(id[0]==int(variable.get())):
 
                     #siempre tengo que hacer una lista porque sino la base de datos da error
                     #*insertar una lista
@@ -328,12 +328,12 @@ def estado():
         root1.mainloop()
 
 
-'''
+"""
 #funcion que dejo para mostrar como agregar una imagen
 def abc():
         #si queres se crea una ventana
         root=Toplevel()
-        root.configure(background="blue")
+        root.configure(background="#a1dbcd")
         RTitle=root.title("probar")
         RWidth=900
         RHeight=500
@@ -341,13 +341,17 @@ def abc():
 
         #y aca le pegas la imagen
         #las siguiente lineas son para colocar una imagen!!!
-        im = Image.open(file=inari.PNG)
-        tkimage = ImageTk.PhotoImage(im)
-        myvar=Tkinter.Label(root,image = tkimage)
-        myvar.place(x=0, y=0, relwidth=1, relheight=1)
+        #im = Image.open('C:\\Users\\aman\\Desktop\\python py files\\python\\abc1.jpeg')
+        #tkimage = ImageTk.PhotoImage(im)
+        #myvar=Tkinter.Label(root,image = tkimage)
+        #myvar.place(x=0, y=0, relwidth=1, relheight=1)
 
         root.mainloop()
-'''
+
+"""
+
+
+
 #ver el estado del pedido
 def track_pedido():
 
@@ -511,16 +515,18 @@ def Ordenar_pedido():
         label_7=Label(root2,text="Pago con:")
         label_AG=Label(root2,text="Carrito:")
 
+
+
         #(lista) de opciones
 
         Opciones = [
-            [bandeja1.posBandeja, bandeja1.tipoBandeja , bandeja1.precio],
-            [bandeja2.posBandeja, bandeja2.tipoBandeja , bandeja2.precio],
-            [bandeja3.posBandeja, bandeja3.tipoBandeja , bandeja3.precio],
-            [bandeja4.posBandeja, bandeja4.tipoBandeja , bandeja4.precio],
-            [bandeja5.posBandeja, bandeja5.tipoBandeja , bandeja5.precio],
-            [bandeja6.posBandeja, bandeja6.tipoBandeja , bandeja6.precio],
-            [bandeja7.posBandeja, bandeja7.tipoBandeja , bandeja7.precio]
+            [bandeja1.posBandeja, bandeja1.tipoBandeja ,bandeja1.precio],
+            [bandeja2.posBandeja,bandeja2.tipoBandeja ,bandeja2.precio],
+            [bandeja3.posBandeja,bandeja3.tipoBandeja ,bandeja3.precio],
+            [bandeja4.posBandeja,bandeja4.tipoBandeja ,bandeja4.precio],
+            [bandeja5.posBandeja,bandeja5.tipoBandeja ,bandeja5.precio],
+            [bandeja6.posBandeja,bandeja6.tipoBandeja ,bandeja6.precio],
+            [bandeja7.posBandeja,bandeja7.tipoBandeja ,bandeja7.precio]
             
         ]
 
@@ -532,10 +538,6 @@ def Ordenar_pedido():
             4,
             5,
             6,
-            7,
-            8,
-            9,
-            10,
         ]
 
 
@@ -714,11 +716,11 @@ def Ordenar_pedido():
                 #guarda la cantidad seleccionada
                 bandeja1.cantidad=variableCantidad.get()
 
-                #guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
                 pedido1.listaDePedidos.append([bandeja1.posBandeja,bandeja1.tipoBandeja,bandeja1.precio,bandeja1.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(380)
+                return int(400)
 
             #tabla 2
             if(seleccion == 2):
@@ -726,11 +728,11 @@ def Ordenar_pedido():
                 #guarda la cantidad seleccionada
                 bandeja2.cantidad=variableCantidad.get()
 
-                #guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
                 pedido1.listaDePedidos.append([bandeja2.posBandeja,bandeja2.tipoBandeja,bandeja2.precio,bandeja2.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(250)
+                return int(900)
 
             #tabla 3
             if(seleccion == 3):
@@ -738,19 +740,19 @@ def Ordenar_pedido():
                 #guarda la cantidad seleccionada
                 bandeja3.cantidad=variableCantidad.get()
 
-                #guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
                 pedido1.listaDePedidos.append([bandeja3.posBandeja,bandeja3.tipoBandeja,bandeja3.precio,bandeja3.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(200)
+                return int(1200)
 
             #tabla 4
             if(seleccion == 4):
 
                 #guarda la cantidad seleccionada
-                bandeja4.cantidad=variableCantidad.get()
+                bandeja3.cantidad=variableCantidad.get()
 
-                #guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
                 pedido1.listaDePedidos.append([bandeja4.posBandeja,bandeja4.tipoBandeja,bandeja4.precio,bandeja4.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
@@ -762,11 +764,11 @@ def Ordenar_pedido():
                 #guarda la cantidad seleccionada
                 bandeja5.cantidad=variableCantidad.get()
 
-                #guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
                 pedido1.listaDePedidos.append([bandeja5.posBandeja,bandeja5.tipoBandeja,bandeja5.precio,bandeja5.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(280)
+                return int(260)
 
             #tabla 6
             if(seleccion == 6):
@@ -774,24 +776,23 @@ def Ordenar_pedido():
                 #guarda la cantidad seleccionada
                 bandeja6.cantidad=variableCantidad.get()
 
-                #guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
                 pedido1.listaDePedidos.append([bandeja6.posBandeja,bandeja6.tipoBandeja,bandeja4.precio,bandeja6.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
                 return int(210)
 
-            #tabla 7
-            if(seleccion == 7):
+            #tabla 3
+            if(seleccion == 3):
 
                 #guarda la cantidad seleccionada
-                bandeja7.cantidad=variableCantidad.get()
+                bandeja3.cantidad=variableCantidad.get()
 
-                #guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
-                pedido1.listaDePedidos.append([bandeja7.posBandeja,bandeja7.tipoBandeja,bandeja7.precio,bandeja7.cantidad])
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append([bandeja3.posBandeja,bandeja3.tipoBandeja,bandeja3.precio,bandeja3.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(240)
-
+                return int(1200)
         #funcion para sacar total
         def sacarTotal(numero):
             total.append(numero)
@@ -799,6 +800,19 @@ def Ordenar_pedido():
             for n in total:
                 aux+=n
             return aux
+
+            #tabla 3
+            if(seleccion == 3):
+
+                #guarda la cantidad seleccionada
+                bandeja3.cantidad = variableCantidad.get()
+
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append(
+                    [bandeja3.posBandeja, bandeja3.tipoBandeja, bandeja3.precio, bandeja3.cantidad])
+
+                #retorna el precio depende de la opcion elegida para sacar el total
+                return int(1200)
 
 
         #command que inserta en la base de datos todos los datos al dar click en Ordenar
