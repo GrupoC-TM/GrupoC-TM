@@ -1,6 +1,6 @@
 
-from Tkinter import *
-import tkMessageBox
+from tkinter import *
+import tkinter.messagebox
 import sqlite3
 from Bandeja import *
 from Pedidos import *
@@ -30,7 +30,7 @@ def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
         conn.close()
 
         #mensaje de que se ha realizado la orden con exito!
-        tkMessageBox.showinfo("","Orden realizada! \nID de la Orden: "+str(Telefono))
+        tkinter.messagebox.showinfo("","Orden realizada! \nID de la Orden: "+str(Telefono))
         #print (c.execute('select * from INARI_DB'))
         #CONSOLA_MOSTRAR
 
@@ -96,7 +96,7 @@ def Borrar_en_DB(pid):
             c.execute('delete from Estado where ID=(?)',lpid)
 
             #mostrar mensaje de que la orden ha sido cancelada
-            tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido candelada!")
+            tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido candelada!")
 
             #commit final de la base de datos
             conn.commit()
@@ -158,15 +158,16 @@ def Borrar_en_DB(pid):
                     #cerrar base de datos
                     conn.close()
 
-                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
+                    tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
                 else:
-                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
+                    tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
             #en caso de que no exista en ninguna de las tablas entonces el id ingresado
             #es incorrecto,por lo tanto no existe pedido con ese id
             except Exception as e:
                 print("ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
-                tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
+                tkinter.messagebox.showinfo(
+                    "", "ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
 
 def cancelar_pedido():
@@ -319,7 +320,8 @@ def pedidos_realizados():
             w.grid(row=3,column=11,padx=10,pady=10)#se posiciona
 
         except Exception as e:
-            tkMessageBox.showinfo("","no hay ningun pedido realizado! :(")
+            tkinter.messagebox.showinfo(
+                "", "no hay ningun pedido realizado! :(")
 
 
 
@@ -367,7 +369,8 @@ def pedidos_realizados():
                     #commit final de la base de datos
                     conn.commit()
 
-                    tkMessageBox.showinfo("","ID de la Orden :"+str(listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
+                    tkinter.messagebox.showinfo("", "ID de la Orden :"+str(
+                        listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
 
 
         root1.mainloop()
@@ -439,14 +442,15 @@ def track_pedido():
                 if (columna[0] == int(id)):
                     print(columna[0])#se muestra en consola para verificar
 
-                    tkMessageBox.showinfo("","Su pedido esta :"+str(columna[1])+" :D")
+                    tkinter.messagebox.showinfo("","Su pedido esta :"+str(columna[1])+" :D")
 
                     #el validador cambia a true para que no se ejecute el if siguiente
                     validador=TRUE
 
             #si no existe ningna orden con el id ingresado, se ejecuta el siguiente mensaje
             if(validador==FALSE):
-                    tkMessageBox.showinfo("","No existe ningun pedido con el id :  "+str(id))
+                tkinter.messagebox.showinfo(
+                    "", "No existe ningun pedido con el id :  "+str(id))
 
             #Cerrar la coneccion
 
