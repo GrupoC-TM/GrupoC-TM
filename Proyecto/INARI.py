@@ -1,7 +1,7 @@
 
 from tkinter import *
 import tkinter as tk 
-import tkinter.messagebox
+import tkMessageBox
 import sqlite3
 from Bandeja import *
 from Pedidos import *
@@ -31,7 +31,7 @@ def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
         conn.close()
 
         #mensaje de que se ha realizado la orden con exito!
-        tkinter.messagebox.showinfo(
+         tkMessageBox.showinfo(
             "", "Orden realizada! \nID de la Orden: "+str(Telefono))
         #print (c.execute('select * from INARI_DB'))
         #CONSOLA_MOSTRAR
@@ -98,7 +98,7 @@ def Borrar_en_DB(pid):
             c.execute('delete from Estado where ID=(?)',lpid)
 
             #mostrar mensaje de que la orden ha sido cancelada
-            tkinter.messagebox.showinfo(
+            tkMessageBox.showinfo(
                 "", "ID de la orden:  "+str(lpid)+" ha sido candelada!")
 
             #commit final de la base de datos
@@ -161,15 +161,15 @@ def Borrar_en_DB(pid):
                     #cerrar base de datos
                     conn.close()
 
-                    tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
+                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
                 else:
-                    tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
+                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
             #en caso de que no exista en ninguna de las tablas entonces el id ingresado
             #es incorrecto,por lo tanto no existe pedido con ese id
             except Exception as e:
                 print("ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
-                tkinter.messagebox.showinfo(
+                tkMessageBox.showinfo(
                     "", "ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
 
@@ -324,7 +324,7 @@ def pedidos_realizados():
             w.grid(row=3,column=11,padx=10,pady=10)#se posiciona
 
         except Exception as e:
-            tkinter.messagebox.showinfo(
+            tkMessageBox.showinfo(
                 "", "no hay ningun pedido realizado! :(")
 
 
@@ -373,7 +373,7 @@ def pedidos_realizados():
                     #commit final de la base de datos
                     conn.commit()
 
-                    tkinter.messagebox.showinfo("", "ID de la Orden :"+str(
+                    tkMessageBox.showinfo("", "ID de la Orden :"+str(
                         listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
 
 
@@ -400,8 +400,8 @@ def abc():
 
         
         root.mainloop()
-
 '''
+
 
 
 
@@ -454,7 +454,8 @@ def track_pedido():
 
             #si no existe ningna orden con el id ingresado, se ejecuta el siguiente mensaje
             if(validador==FALSE):
-                    tkMessageBox.showinfo("","No existe ningun pedido con el id :  "+str(id))
+                tkMessageBox.showinfo(
+                    "", "No existe ningun pedido con el id :  "+str(id))
 
             #Cerrar la coneccion
 
@@ -546,7 +547,7 @@ def Ordenar_pedido():
         RHeight=500
         root2.geometry(("%dx%d")%(RWidth,RHeight))
         var1=IntVar() #en caso de error descomentar
-    
+
         #crean los objetos de las bandejas
         bandeja1 = Bandeja(1, " URAKAMI (roll-8 piezas) ", 380)
         bandeja2 = Bandeja(2, "  GEISHAS (bocado-4 piezas) ", 250)
@@ -586,7 +587,7 @@ def Ordenar_pedido():
         #(lista) de opciones
 
         Opciones = [
-             [bandeja1.posBandeja, bandeja1.tipoBandeja , bandeja1.precio],
+            [bandeja1.posBandeja, bandeja1.tipoBandeja , bandeja1.precio],
             [bandeja2.posBandeja, bandeja2.tipoBandeja , bandeja2.precio],
             [bandeja3.posBandeja, bandeja3.tipoBandeja , bandeja3.precio],
             [bandeja4.posBandeja, bandeja4.tipoBandeja , bandeja4.precio],
@@ -789,7 +790,7 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja1.posBandeja,bandeja1.tipoBandeja,bandeja1.precio,bandeja1.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(380)
+                return int(400)
 
             #tabla 2
             if(seleccion == 2):
@@ -801,7 +802,7 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja2.posBandeja,bandeja2.tipoBandeja,bandeja2.precio,bandeja2.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(250)
+                return int(900)
 
             #tabla 3
             if(seleccion == 3):
@@ -813,52 +814,7 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja3.posBandeja,bandeja3.tipoBandeja,bandeja3.precio,bandeja3.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(200)
-            #tabla 4
-            if(seleccion == 4):
-
-                #guarda la cantidad seleccionada
-                bandeja4.cantidad=variableCantidad.get()
-
-                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
-                pedido1.listaDePedidos.append([bandeja4.posBandeja,bandeja4.tipoBandeja,bandeja4.precio,bandeja4.cantidad])
-
-                #retorna el precio depende de la opcion elegida para sacar el total
-                return int(210)
-            #tabla 5
-            if(seleccion == 5):
-
-                #guarda la cantidad seleccionada
-                bandeja5.cantidad=variableCantidad.get()
-
-                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
-                pedido1.listaDePedidos.append([bandeja5.posBandeja,bandeja5.tipoBandeja,bandeja5.precio,bandeja5.cantidad])
-
-                #retorna el precio depende de la opcion elegida para sacar el total
-                return int(280)
-            #tabla 6
-            if(seleccion == 6):
-
-                #guarda la cantidad seleccionada
-                bandeja6.cantidad=variableCantidad.get()
-
-                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
-                pedido1.listaDePedidos.append([bandeja6.posBandeja,bandeja6.tipoBandeja,bandeja6.precio,bandeja6.cantidad])
-
-                #retorna el precio depende de la opcion elegida para sacar el total
-                return int(210)
-            #tabla 7
-            if(seleccion == 7):
-
-                #guarda la cantidad seleccionada
-                bandeja7.cantidad=variableCantidad.get()
-
-                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
-                pedido1.listaDePedidos.append([bandeja7.posBandeja,bandeja7.tipoBandeja,bandeja7.precio,bandeja7.cantidad])
-
-                #retorna el precio depende de la opcion elegida para sacar el total
-                return int(240)
-            
+                return int(1200)
 
 
         #funcion para sacar total
@@ -1009,9 +965,13 @@ def cliente():
         RHeight=500
         root.geometry(("%dx%d")%(RWidth,RHeight))
 
+        image = tk.PhotoImage(file="inari.gif")
+        image = image.subsample(1, 1)
+        label = tk.Label(image=image)
+        label.place(x=0, y=0, relwidth=1.0, relheight=1.0)
         #Label titulo
         LabelTitulo = Label(root,text="INARI SUSHI\nBienvenido!!!",font=("AndaleMono",50,"bold"))
-        LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
+        #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
         LabelTitulo.place(x= 140,y =30)
 
         #variables comando para abrir ventanas
@@ -1127,7 +1087,7 @@ def vendedor():
 
 #Ventana Main
 def main():
-        root=tk.Tk()
+        root = tk.Tk()
         root.configure(background="orange red")
         RTitle=root.title("Delivery Sushi")
 
@@ -1135,6 +1095,10 @@ def main():
         image = image.subsample(1, 1)
         label = tk.Label(image=image)
         label.place(x=0, y=0, relwidth=1.0, relheight=1.0)
+        #Label titulo
+        #LabelTitulo = Label(root,font=("AndaleMono",50,"bold"))
+        #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
+        #LabelTitulo.place(x= 140,y =30)
 
         #asignan variables de ancho y alto y se colocan en geometry
         RWidth=625
