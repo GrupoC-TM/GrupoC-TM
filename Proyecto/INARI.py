@@ -1,4 +1,6 @@
-
+#La sintaxis del import varia segun la version de Tkinter/Python
+#from tkinter import *
+#import tkinter as tk
 from Tkinter import *
 import Tkinter as tk
 import tkMessageBox
@@ -31,8 +33,8 @@ def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
         conn.close()
 
         #mensaje de que se ha realizado la orden con exito!
-        tkMessageBox.showinfo(
-            "", "Orden realizada! \nID de la Orden: "+str(Telefono))
+        """tkMessageBox.showinfo(
+            "", "Orden realizada! \nID de la Orden: "+str(Telefono))"""
         #print (c.execute('select * from INARI_DB'))
         #CONSOLA_MOSTRAR
 
@@ -99,7 +101,7 @@ def Borrar_en_DB(pid):
 
             #mostrar mensaje de que la orden ha sido cancelada
             tkMessageBox.showinfo(
-                "", "ID de la orden:  "+str(lpid)+" ha sido candelada!")
+                "", "ID de la orden:  "+str(lpid)+" ha sido cancelada!")
 
             #commit final de la base de datos
             conn.commit()
@@ -929,12 +931,65 @@ def Ordenar_pedido():
                     break
 
             #finalmente insertar en la base de datos todo!
-            Insertar_en_DB(Nombre,Email,Telefono,cadena,costo,pagoCon,Estado,direccion)
+            """ Se agregan tres variables de validacion que empiezan con valor FALSE
+            y se agrega la validacion individual de cada campo, si cumplen cambian su
+            valor a TRUE.Finalmente hay una validacion que compara que todas las validaciones
+            sean verdaderas y se envian los datos a la base de datos """
 
-            #insertar en tabla estado el id, el estado y costo
-            insertar_en_Estado(Telefono,Estado,costo)
+            valTelefono=False
+            valPagocon=False
+            valCorreo=False
 
-            destruir_ventana(root2)
+            #validador de telefono
+
+            if  (len(Telefono)>=7) and (len(Telefono)<=10)and (type(int(Telefono))== int):
+
+                valTelefono=True
+
+            else:
+
+                tkMessageBox.showinfo(
+                    "", "Ingrese un numero de telefono valido")
+
+            #validador de PagoCon
+
+            if  (int(pagoCon)>=costo):
+
+                valPagocon=True
+
+            else:
+
+                tkMessageBox.showinfo(
+                    "", "Pago invalido o insuficiente")
+
+            #validador de correo
+            #aca el len devuelve el largo del String
+            for l in range(len(Email)):
+
+            #y con el range lo que hace es un array con la cantidad de elmentos que contenga el email ingresado
+            	if Email [l] == "@":
+
+            		valCorreo = True
+
+            if(valCorreo==False):
+
+            	tkMessageBox.showinfo(
+                "", "Correo ingresado no valido")
+
+            #Validacion de telefono y pago con
+
+            if (valTelefono)and(valPagocon)and(valCorreo):
+
+                Insertar_en_DB(Nombre,Email,Telefono,cadena,costo,pagoCon,Estado,direccion)
+
+                #insertar en tabla estado el id, el estado y costo
+                insertar_en_Estado(Telefono,Estado,costo)
+
+                destruir_ventana(root2)
+
+                tkMessageBox.showinfo(
+                    "", "Orden realizada! \nID de la Orden: "+str(Telefono))
+
 
         root2.mainloop()
 
@@ -944,7 +999,6 @@ def Ordenar_pedido():
 def Caja():
         #configuracion base de la ventana
         rootCaja=Tk()
-
         rootCaja.configure(background="orange red")
         RTitle=rootCaja.title("Caja")
         RWidth=600
@@ -953,6 +1007,7 @@ def Caja():
 
         #Label titulo
         LabelTitulo = Label(rootCaja,text="INARI SUSHI\nCAJA",font=("AndaleMono",20,"bold"))
+
         #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
         LabelTitulo.grid(row=0,column=3,padx=10,pady=10)
 
