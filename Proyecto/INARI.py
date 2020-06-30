@@ -1,6 +1,7 @@
 
-from Tkinter import *
-import tkMessageBox
+from tkinter import *
+import tkinter as tk 
+import tkinter.messagebox
 import sqlite3
 from Bandeja import *
 from Pedidos import *
@@ -30,7 +31,8 @@ def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
         conn.close()
 
         #mensaje de que se ha realizado la orden con exito!
-        tkMessageBox.showinfo("","Orden realizada! \nID de la Orden: "+str(Telefono))
+        tkinter.messagebox.showinfo(
+            "", "Orden realizada! \nID de la Orden: "+str(Telefono))
         #print (c.execute('select * from INARI_DB'))
         #CONSOLA_MOSTRAR
 
@@ -96,7 +98,8 @@ def Borrar_en_DB(pid):
             c.execute('delete from Estado where ID=(?)',lpid)
 
             #mostrar mensaje de que la orden ha sido cancelada
-            tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido candelada!")
+            tkinter.messagebox.showinfo(
+                "", "ID de la orden:  "+str(lpid)+" ha sido candelada!")
 
             #commit final de la base de datos
             conn.commit()
@@ -158,15 +161,16 @@ def Borrar_en_DB(pid):
                     #cerrar base de datos
                     conn.close()
 
-                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
+                    tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
                 else:
-                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
+                    tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
             #en caso de que no exista en ninguna de las tablas entonces el id ingresado
             #es incorrecto,por lo tanto no existe pedido con ese id
             except Exception as e:
                 print("ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
-                tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
+                tkinter.messagebox.showinfo(
+                    "", "ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
 
 def cancelar_pedido():
@@ -204,6 +208,7 @@ def pedidos_realizados():
         RHeight=900
         root1.geometry(("%dx%d")%(RWidth,RHeight))
 
+        
         #etiqueta del titulo
         label_1=Label(root1,text="Descripcion de pedidos realizados:")
         label_1.grid(row=2,column=2,padx=10,pady=10)
@@ -319,7 +324,8 @@ def pedidos_realizados():
             w.grid(row=3,column=11,padx=10,pady=10)#se posiciona
 
         except Exception as e:
-            tkMessageBox.showinfo("","no hay ningun pedido realizado! :(")
+            tkinter.messagebox.showinfo(
+                "", "no hay ningun pedido realizado! :(")
 
 
 
@@ -367,18 +373,19 @@ def pedidos_realizados():
                     #commit final de la base de datos
                     conn.commit()
 
-                    tkMessageBox.showinfo("","ID de la Orden :"+str(listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
+                    tkinter.messagebox.showinfo("", "ID de la Orden :"+str(
+                        listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
 
 
         root1.mainloop()
 
 
-"""
+'''
 #funcion que dejo para mostrar como agregar una imagen
 def abc():
         #si queres se crea una ventana
         root=Toplevel()
-        root.configure(background="#a1dbcd")
+        root.configure(background="orange")
         RTitle=root.title("probar")
         RWidth=900
         RHeight=500
@@ -386,14 +393,15 @@ def abc():
 
         #y aca le pegas la imagen
         #las siguiente lineas son para colocar una imagen!!!
-        #im = Image.open('C:\\Users\\aman\\Desktop\\python py files\\python\\abc1.jpeg')
-        #tkimage = ImageTk.PhotoImage(im)
-        #myvar=Tkinter.Label(root,image = tkimage)
-        #myvar.place(x=0, y=0, relwidth=1, relheight=1)
+        im = Image.open(file="inari.gif")
+        tkimage = ImageTk.PhotoImage(im)
+        myvar=tkinter.Label(root,image = tkimage)
+        myvar.place(x=0, y=0, relwidth=1, relheight=1)
 
+        
         root.mainloop()
 
-"""
+'''
 
 
 
@@ -538,7 +546,7 @@ def Ordenar_pedido():
         RHeight=500
         root2.geometry(("%dx%d")%(RWidth,RHeight))
         var1=IntVar() #en caso de error descomentar
-
+    
         #crean los objetos de las bandejas
         bandeja1 = Bandeja(1, " URAKAMI (roll-8 piezas) ", 380)
         bandeja2 = Bandeja(2, "  GEISHAS (bocado-4 piezas) ", 250)
@@ -958,7 +966,7 @@ def cliente():
 
         #Label titulo
         LabelTitulo = Label(root,text="INARI SUSHI\nBienvenido!!!",font=("AndaleMono",50,"bold"))
-        #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
+        LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
         LabelTitulo.place(x= 140,y =30)
 
         #variables comando para abrir ventanas
@@ -1074,18 +1082,18 @@ def vendedor():
 
 #Ventana Main
 def main():
-        root=Tk()
+        root=tk.Tk()
         root.configure(background="orange red")
         RTitle=root.title("Delivery Sushi")
 
-        #Label titulo
-        LabelTitulo = Label(root,text="INARI SUSHI",font=("AndaleMono",50,"bold"))
-        #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
-        LabelTitulo.place(x= 140,y =30)
+        image = tk.PhotoImage(file="inari.gif")
+        image = image.subsample(1, 1)
+        label = tk.Label(image=image)
+        label.place(x=0, y=0, relwidth=1.0, relheight=1.0)
 
         #asignan variables de ancho y alto y se colocan en geometry
-        RWidth=700
-        RHeight=400
+        RWidth=625
+        RHeight=600
         root.geometry(("%dx%d")%(RWidth,RHeight))
 
         #variables comandos que ejecutan ventanas
@@ -1093,12 +1101,12 @@ def main():
         command_1=lambda :cliente()
 
         #botones
-        Button_1=Button(root,text="Vendedor",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5,command=command)
-        Button_2=Button(root,text="Cliente",activebackground="khaki1",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5,command=command_1)
+        Button_1=Button(root,text="Vendedor",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=12,height=5,command=command)
+        Button_2=Button(root,text="Cliente",activebackground="khaki1",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=12,height=5,command=command_1)
         #Button_1.grid(row=1,column=1,padx=5,pady=140)
         #Button_2.grid(row=1,column=2,padx=6,pady=140)
-        Button_1.place(x= 50,y =180)
-        Button_2.place(x=460,y =180)
+        Button_1.place(x= 50, y= 275)
+        Button_2.place(x= 415, y= 275)
 
 
         root.mainloop()
