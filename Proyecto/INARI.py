@@ -1,6 +1,6 @@
 
-from tkinter import *
-import tkinter.messagebox
+from Tkinter import *
+import tkMessageBox
 import sqlite3
 from Bandeja import *
 from Pedidos import *
@@ -30,7 +30,7 @@ def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
         conn.close()
 
         #mensaje de que se ha realizado la orden con exito!
-        tkinter.messagebox.showinfo("","Orden realizada! \nID de la Orden: "+str(Telefono))
+        tkMessageBox.showinfo("","Orden realizada! \nID de la Orden: "+str(Telefono))
         #print (c.execute('select * from INARI_DB'))
         #CONSOLA_MOSTRAR
 
@@ -96,7 +96,7 @@ def Borrar_en_DB(pid):
             c.execute('delete from Estado where ID=(?)',lpid)
 
             #mostrar mensaje de que la orden ha sido cancelada
-            tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido candelada!")
+            tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido candelada!")
 
             #commit final de la base de datos
             conn.commit()
@@ -158,16 +158,15 @@ def Borrar_en_DB(pid):
                     #cerrar base de datos
                     conn.close()
 
-                    tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
+                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
                 else:
-                    tkinter.messagebox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
+                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
             #en caso de que no exista en ninguna de las tablas entonces el id ingresado
             #es incorrecto,por lo tanto no existe pedido con ese id
             except Exception as e:
                 print("ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
-                tkinter.messagebox.showinfo(
-                    "", "ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
+                tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
 
 def cancelar_pedido():
@@ -320,8 +319,7 @@ def pedidos_realizados():
             w.grid(row=3,column=11,padx=10,pady=10)#se posiciona
 
         except Exception as e:
-            tkinter.messagebox.showinfo(
-                "", "no hay ningun pedido realizado! :(")
+            tkMessageBox.showinfo("","no hay ningun pedido realizado! :(")
 
 
 
@@ -369,8 +367,7 @@ def pedidos_realizados():
                     #commit final de la base de datos
                     conn.commit()
 
-                    tkinter.messagebox.showinfo("", "ID de la Orden :"+str(
-                        listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
+                    tkMessageBox.showinfo("","ID de la Orden :"+str(listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
 
 
         root1.mainloop()
@@ -442,15 +439,14 @@ def track_pedido():
                 if (columna[0] == int(id)):
                     print(columna[0])#se muestra en consola para verificar
 
-                    tkinter.messagebox.showinfo("","Su pedido esta :"+str(columna[1])+" :D")
+                    tkMessageBox.showinfo("","Su pedido esta :"+str(columna[1])+" :D")
 
                     #el validador cambia a true para que no se ejecute el if siguiente
                     validador=TRUE
 
             #si no existe ningna orden con el id ingresado, se ejecuta el siguiente mensaje
             if(validador==FALSE):
-                tkinter.messagebox.showinfo(
-                    "", "No existe ningun pedido con el id :  "+str(id))
+                    tkMessageBox.showinfo("","No existe ningun pedido con el id :  "+str(id))
 
             #Cerrar la coneccion
 
@@ -544,9 +540,13 @@ def Ordenar_pedido():
         var1=IntVar() #en caso de error descomentar
 
         #crean los objetos de las bandejas
-        bandeja1 = Bandeja(1," tabla clasica",400)
-        bandeja2 = Bandeja(2," tabla mediana",900)
-        bandeja3 = Bandeja(3," tabla grande",1200)
+        bandeja1 = Bandeja(1, " URAKAMI (roll-8 piezas) ", 380)
+        bandeja2 = Bandeja(2, "  GEISHAS (bocado-4 piezas) ", 250)
+        bandeja3 = Bandeja(3, "  TEMAKIS (cono-1 pieza) ", 200)
+        bandeja4 = Bandeja(4, "  HOSOMAKI (roll-6 piezas)", 210)
+        bandeja5 = Bandeja(5, "  SASHIMI (bocado-5 piezas) ", 280)
+        bandeja6 = Bandeja(6, " GUNKAN (bolitas-5 piezas)", 210)
+        bandeja7 = Bandeja(7, " NIGURI (bolitas-5 piezas)", 240)
 
         #crear objeto Pedidos para el pedido actual
         pedido1 = Pedidos()
@@ -578,9 +578,13 @@ def Ordenar_pedido():
         #(lista) de opciones
 
         Opciones = [
-            [bandeja1.posBandeja, bandeja1.tipoBandeja ,bandeja1.precio],
-            [bandeja2.posBandeja,bandeja2.tipoBandeja ,bandeja2.precio],
-            [bandeja3.posBandeja,bandeja3.tipoBandeja ,bandeja3.precio]
+             [bandeja1.posBandeja, bandeja1.tipoBandeja , bandeja1.precio],
+            [bandeja2.posBandeja, bandeja2.tipoBandeja , bandeja2.precio],
+            [bandeja3.posBandeja, bandeja3.tipoBandeja , bandeja3.precio],
+            [bandeja4.posBandeja, bandeja4.tipoBandeja , bandeja4.precio],
+            [bandeja5.posBandeja, bandeja5.tipoBandeja , bandeja5.precio],
+            [bandeja6.posBandeja, bandeja6.tipoBandeja , bandeja6.precio],
+            [bandeja7.posBandeja, bandeja7.tipoBandeja , bandeja7.precio]
         ]
 
         #lista de cantidad
@@ -591,6 +595,10 @@ def Ordenar_pedido():
             4,
             5,
             6,
+            7,
+            8,
+            9,
+            10,
         ]
 
 
