@@ -1,6 +1,6 @@
 
-from tkinter import *
-import tkinter as tk 
+from Tkinter import *
+import Tkinter as tk
 import tkMessageBox
 import sqlite3
 from Bandeja import *
@@ -208,7 +208,7 @@ def pedidos_realizados():
         RHeight=900
         root1.geometry(("%dx%d")%(RWidth,RHeight))
 
-        
+
         #etiqueta del titulo
         label_1=Label(root1,text="Descripcion de pedidos realizados:")
         label_1.grid(row=2,column=2,padx=10,pady=10)
@@ -398,7 +398,7 @@ def abc():
         myvar=tkinter.Label(root,image = tkimage)
         myvar.place(x=0, y=0, relwidth=1, relheight=1)
 
-        
+
         root.mainloop()
 '''
 
@@ -790,7 +790,7 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja1.posBandeja,bandeja1.tipoBandeja,bandeja1.precio,bandeja1.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(400)
+                return int(380)
 
             #tabla 2
             if(seleccion == 2):
@@ -802,7 +802,7 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja2.posBandeja,bandeja2.tipoBandeja,bandeja2.precio,bandeja2.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(900)
+                return int(250)
 
             #tabla 3
             if(seleccion == 3):
@@ -814,7 +814,7 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja3.posBandeja,bandeja3.tipoBandeja,bandeja3.precio,bandeja3.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(1200)
+                return int(200)
             #tabla 4
             if(seleccion == 4):
 
@@ -1015,10 +1015,10 @@ def cliente():
         RHeight=500
         root.geometry(("%dx%d")%(RWidth,RHeight))
 
-        image = tk.PhotoImage(file="inari.gif")
+        """image = tk.PhotoImage(file="inari.gif")
         image = image.subsample(1, 1)
         label = tk.Label(image=image)
-        label.place(x=0, y=0, relwidth=1.0, relheight=1.0)
+        label.place(x=0, y=0, relwidth=1.0, relheight=1.0)"""
         #Label titulo
         LabelTitulo = Label(root,text="INARI SUSHI\nBienvenido!!!",font=("AndaleMono",50,"bold"))
         #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
