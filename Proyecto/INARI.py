@@ -37,10 +37,10 @@ def Insertar_en_DB(Nombre,Email,Telefono,Pedido,Costo,pagoCon,Estado,Direccion):
 
 
 #funcion para insertar en la tabla estado del id y estado de un pedido cuando es despachado
-def insertar_en_Estado(ID,Estado):
+def insertar_en_Estado(ID,Estado,total):
 
     #se pasan las variables a una lista porque sino el INSERT a la db da error
-    lista=[ID,Estado]
+    lista=[ID,Estado,total]
 
     #se crea la variable coneccion
     conn=sqlite3.connect('INARI_DB.db')
@@ -50,7 +50,7 @@ def insertar_en_Estado(ID,Estado):
 
     #se ejecuta el ingreso(INSERT) a la base de datos,pasandole la lista con close
     #datos en el orden en que deben ser ingresados
-    c.execute('INSERT INTO Estado VALUES(?,?)',lista)
+    c.execute('INSERT INTO Estado VALUES(?,?,?)',lista)
 
     #commit de la base de datos
     conn.commit()
@@ -74,7 +74,7 @@ def Borrar_en_DB(pid):
         #se intenta borrar en la db, tabla Panel
         try:
 
-            #borrar en panel
+            #obtener en panel
             #se selecciona la fila donde coincide el id ( lpid )
             c.execute('select * from Panel  where ID=(?)',lpid)
 
@@ -93,10 +93,10 @@ def Borrar_en_DB(pid):
             c.execute('delete from Panel where ID=(?)',lpid)
 
             #y de Estado tambien
-            c.execute('delete from Estado where ID=(?)',pid)
+            c.execute('delete from Estado where ID=(?)',lpid)
 
             #mostrar mensaje de que la orden ha sido cancelada
-            tkMessageBox.showinfo("","ID de la orden:  "+str(pid)+" ha sido candelada!")
+            tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido candelada!")
 
             #commit final de la base de datos
             conn.commit()
@@ -111,24 +111,62 @@ def Borrar_en_DB(pid):
         except IndexError as e:
 
             try:
-                #borrar en estado, en la posicion del id ( pid )
-                c.execute('delete from Estado where ID=(?)',lpid)
 
-                #refuerzo para que borre bien
-                c.execute('delete from Estado where ID=(?)',pid)
 
-                #commit final de la base de datos
-                conn.commit()
+                #se crea la variable coneccion
+                conn=sqlite3.connect('INARI_DB.db')
 
-                #cerrar base de datos
-                conn.close()
+                #se crea el cursor
+                c=conn.cursor()
 
-                tkMessageBox.showinfo("","ID de la orden:  "+str(pid)+" ha sido cancelada!")
+                #-------------------------------------------------------------------------------------------------------
+                #validar que existe el num en la tabla estado
+
+                #obtener en Estado
+                #se selecciona la fila donde coincide el id ( lpid )
+                c.execute('select * from Estado where ID=(?)',lpid)
+
+                #fetchmany obtiene la fila  en la posicion que indicamos arriba con el cursor
+                list3=c.fetchmany()
+
+                #CONSOLA_MOSTRAR
+                print (list3[0][0])#mostrar la lista(de los datos a borrar de esa fila) en consola
+                print(lpid)
+
+                if(list3[0][0] == int(lpid[0])):
+
+
+
+                    #falta agregar el total
+                    #-------------------------------------------------------------------------------------------------------
+
+                    listCanceladoCamino=[(pid),("-"),(pid),("-"),("cancelado en el\ncamino"),(0),(0),(0),(0)]
+                    #listCanceladoCamino=[[pid],["Cancelado"],["en"],["el"],["camino"],["-"],["-"],["-"],["-"]]
+
+                    #enviar a lista cancelado si se cancela en el camino
+                    c.execute('insert into Cancelado values (?,?,?,?,?,?,?,?,?)',listCanceladoCamino)
+
+                    #borrar en estado, en la posicion del id ( pid )
+                    c.execute('delete from Estado where ID=(?)',lpid)
+
+                    #refuerzo para que borre bien
+                    #c.execute('delete from Estado where ID=(?)',lpid)
+
+                    #commit final de la base de datos
+                    conn.commit()
+
+                    #cerrar base de datos
+                    conn.close()
+
+                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
+                else:
+                    tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
             #en caso de que no exista en ninguna de las tablas entonces el id ingresado
             #es incorrecto,por lo tanto no existe pedido con ese id
             except Exception as e:
-                tkMessageBox.showinfo("","ID de la orden:  "+str(pid)+" \n no existe o ya ha sido cancelado")
+                print("ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
+                tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
 
 
 def cancelar_pedido():
@@ -246,7 +284,7 @@ def pedidos_realizados():
 
 
 
-        #agregar funciones de despachar--------------------------------------------------------------------
+
 
         #etiqueta despachar
         label_18=Label(root1,text="Despachar el pedido:")
@@ -260,7 +298,10 @@ def pedidos_realizados():
         for id in c.execute('select * from Panel'):
 
             #los ides estan en la posicion 0 de la tabla Panel
+
             listaID += [id[0]]
+
+
 
 
         #crea una variable string var para alojar los id en forma de string
@@ -269,13 +310,20 @@ def pedidos_realizados():
         #guarda el primer id de la lista
         # valor por defecto el 0 para que el menu desplegable muestra el primer id
         #cuando no se selecciona ninguna opcion
-        variable.set(listaID[0])
+        try:
+            variable.set(listaID[0])
+
+            #crea el menu deplegable de ID
+            #se pasa la variable de por defecto y  se le agrega una tupla con todos los ID
+            w = OptionMenu( *(root1, variable) + tuple(listaID))
+            w.grid(row=3,column=11,padx=10,pady=10)#se posiciona
+
+        except Exception as e:
+            tkMessageBox.showinfo("","no hay ningun pedido realizado! :(")
 
 
-        #crea el menu deplegable de ID
-        #se pasa la variable de por defecto y  se le agrega una tupla con todos los ID
-        w = OptionMenu( *(root1, variable) + tuple(listaID))
-        w.grid(row=3,column=11,padx=10,pady=10)#se posiciona
+
+
 
         #command del boton  para despachar pedidos(funcion estado())
         commanDesp = lambda: estado()
@@ -498,6 +546,18 @@ def Ordenar_pedido():
 
         #crear objeto Pedidos para el pedido actual
         pedido1 = Pedidos()
+
+        #se limpia el objeto
+        try:
+            pedido1.total = 0
+            pedido1.direccion=""
+            con=0
+            for i in pedido1.listaDePedidos:
+                del pedido1.listaDePedidos[con]
+                con+=1
+        except Exception as e:
+            pass
+
 
         #etiquetas
         label_1=Label(root2,text="Nombre")
@@ -760,36 +820,118 @@ def Ordenar_pedido():
         Button_Salir =Button(root2,text="Salir",activebackground="khaki1",relief=SUNKEN,font=("AndaleMono",14,"bold"),borderwidth=4,bg="white",fg="black",width=5,height=2,command=commandSalir)
 
         #posicionamiento del boton salir
-        Button_Salir.grid(row=1,column=2,padx=30,pady=10)
+        Button_Salir.grid(row=1,column=10,padx=30,pady=10)
+
+        con=0
+        for i in pedido1.listaDePedidos:
+            del pedido1.listaDePedidos[con]
+            con+=1
+
+
+
+        #Agregar etiqueta de titulo
+
+
+
+
+
+
+        #funcion que inserta los datos en la base de datos
+        def botonOrdenar(Nombre,Email,Telefono,pedido,costo,pagoCon,Estado,direccion):
+
+            #cramos cadena y count
+            cadena=" "
+
+            count=0
+
+            #guardan en la cadena el pedido y cantidad hasta que de error de exceder el index
+            for item in pedido:
+                try:#                   pedido                                  cantidad
+                    cadena += str(pedido[count][1])+" x"+str(pedido[count][3])+" | \n"
+                    #toma de la lista pedido,[count] es para recorrer cada sublista y el segundo corchete
+                    #es para obtener el string de la tabla seleccionada[1], el de [3] es para obtener
+                    #la cantidad
+                    #se obtiene el "tabla elegida  x2" (x2=cantidad)
+                    count+=1
+                except Exception as e:
+                    #si falla que termine
+                    break
+
+            #finalmente insertar en la base de datos todo!
+            Insertar_en_DB(Nombre,Email,Telefono,cadena,costo,pagoCon,Estado,direccion)
+
+            #insertar en tabla estado el id, el estado y costo
+            insertar_en_Estado(Telefono,Estado,costo)
+
+            destruir_ventana(root2)
+
         root2.mainloop()
 
 
-#funcion que inserta los datos en la base de datos
-def botonOrdenar(Nombre,Email,Telefono,pedido,costo,pagoCon,Estado,direccion):
 
-    #cramos cadena y count
-    cadena=" "
+#ventana mostrar Caja
+def Caja():
+        #configuracion base de la ventana
+        rootCaja=Tk()
 
-    count=0
+        rootCaja.configure(background="orange red")
+        RTitle=rootCaja.title("Caja")
+        RWidth=600
+        RHeight=900
+        rootCaja.geometry(("%dx%d")%(RWidth,RHeight))
 
-    #guardan en la cadena el pedido y cantidad hasta que de error de exceder el index
-    for item in pedido:
-        try:#                   pedido                                  cantidad
-            cadena += str(pedido[count][1])+" x"+str(pedido[count][3])+" | \n"
-            #toma de la lista pedido,[count] es para recorrer cada sublista y el segundo corchete
-            #es para obtener el string de la tabla seleccionada[1], el de [3] es para obtener
-            #la cantidad
-            #se obtiene el "tabla elegida  x2" (x2=cantidad)
-            count+=1
-        except Exception as e:
-            #si falla que termine
-            break
+        #Label titulo
+        LabelTitulo = Label(rootCaja,text="INARI SUSHI\nCAJA",font=("AndaleMono",20,"bold"))
+        #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
+        LabelTitulo.grid(row=0,column=3,padx=10,pady=10)
 
-    #finalmente insertar en la base de datos todo!
-    Insertar_en_DB(Nombre,Email,Telefono,cadena,costo,pagoCon,Estado,direccion)
+        #Etiquetas fijas
+        #ID
+        label_1=Label(rootCaja,text="ID:")
+        label_1.grid(row=4,column=3,padx=10,pady=10)
 
-    #insertar en tabla estado el id y el estado
-    insertar_en_Estado(Telefono,Estado)
+        #total
+        label_2=Label(rootCaja,text="Total de cada pedido:")
+        label_2.grid(row=4,column=5,padx=10,pady=10)
+
+        n = 6
+        cierre = 0
+
+        #se crea la variable coneccion
+        conn=sqlite3.connect('INARI_DB.db')
+
+        #se crea el cursor
+        c=conn.cursor()
+
+        for row2 in c.execute('select * from Estado'):
+                n+=1
+                if(row2[1] == "En camino"):
+                    #ID
+                    label_3=Label(rootCaja,text=str(row2[0]),justify="left")
+                    label_3.grid(row=n,column=3,padx=0,pady=10)
+
+                    #total
+                    label_4=Label(rootCaja,text=str(row2[2]),justify="left")
+                    label_4.grid(row=n,column=5,padx=0,pady=10)
+
+                    cierre+=int(row2[2])
+
+        #total
+        label_4=Label(rootCaja,text="cierre de caja del dia con:",justify="left")
+        label_4.grid(row=0,column=6,padx=10,pady=10)
+
+
+
+
+
+        #total 2
+        label_4=Label(rootCaja,text="$"+str(cierre),justify="left")
+        label_4.grid(row=0,column=7,padx=10,pady=10)
+        print(cierre)
+
+
+
+
 
 
 #ventana cliente
@@ -836,6 +978,28 @@ def destruir_ventana(root):
         root.destroy()
 
 
+def acerca_de():
+    rootAC=Tk()
+    rootAC.configure(background="Orange red")
+    RTitle=rootAC.title("Acerca De: ?")
+    RWidth=605
+    RHeight=500
+    rootAC.geometry(("%dx%d")%(RWidth,RHeight))
+
+    texto = Text(rootAC, width=60, height=26, bg="white", fg="black", font=("Consolas",12))
+    texto.grid(row=0, column=0, pady=0, padx=0)
+    texto.insert("insert", """*********************INARI SUSHI****************************
+            \nEste software fue realizado como proyecto para la promocion de la materia 'Metodologiade la investigacion' de la        universidad tecnologica nacional de Mendoza Argentina.
+             \n\nEste fue desarrollado por el siguiente grupo de alumnos:
+             \nGrilli Luciano
+             \nMauriz Sebastian
+             \nCandia Mauro
+             \nRoza Joaquin
+             \n\nEl software consiste en un delivery de sushi para el local  INARI el cual se tiene las funciones necesarias y mayormente requeridas para un delivery""")
+
+
+
+
 #ventana vendedor
 def vendedor():
         #configuraciones basicas de la ventana
@@ -856,6 +1020,10 @@ def vendedor():
         command2=lambda :pedidos_realizados()
         command3=lambda :ordenes_canceladas()
         command4=lambda :destruir_ventana(root)
+        command5=lambda :Caja()
+        command6=lambda :acerca_de()
+
+
 
         #activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5,
         #crear botones
@@ -863,10 +1031,8 @@ def vendedor():
         Button_2=Button(root,text="Cancelar pedido",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",12,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5, command=command1)
         Button_3=Button(root,text="Pedidos\n realizados",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",12,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5,command=command2)
         Button_4=Button(root,text=" Pedidos\n Cancelados",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",12,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5,command=command3)
-
-        #botones nuevos,hay que agregarles las variales commando
-        Button_5=Button(root,text="Mostrar Caja",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",12,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5)
-        Button_6=Button(root,text="  Despachar \npedidos",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",12,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5)
+        Button_5=Button(root,text="Mostrar Caja",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",12,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5,command=command5)
+        Button_6=Button(root,text="  Acerca De",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",12,"bold"),bg="white",fg="black",borderwidth=4,width=15,height=5,command=command6)
 
 
         Button_7=Button(root,text="Salir",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",12,"bold"),bg="white",fg="black",borderwidth=4,width=5,height=2,command=command4)
