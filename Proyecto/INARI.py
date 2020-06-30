@@ -789,7 +789,7 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja1.posBandeja,bandeja1.tipoBandeja,bandeja1.precio,bandeja1.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(400)
+                return int(380)
 
             #tabla 2
             if(seleccion == 2):
@@ -801,7 +801,7 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja2.posBandeja,bandeja2.tipoBandeja,bandeja2.precio,bandeja2.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(900)
+                return int(250)
 
             #tabla 3
             if(seleccion == 3):
@@ -813,7 +813,52 @@ def Ordenar_pedido():
                 pedido1.listaDePedidos.append([bandeja3.posBandeja,bandeja3.tipoBandeja,bandeja3.precio,bandeja3.cantidad])
 
                 #retorna el precio depende de la opcion elegida para sacar el total
-                return int(1200)
+                return int(200)
+            #tabla 4
+            if(seleccion == 4):
+
+                #guarda la cantidad seleccionada
+                bandeja4.cantidad=variableCantidad.get()
+
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append([bandeja4.posBandeja,bandeja4.tipoBandeja,bandeja4.precio,bandeja4.cantidad])
+
+                #retorna el precio depende de la opcion elegida para sacar el total
+                return int(210)
+            #tabla 5
+            if(seleccion == 5):
+
+                #guarda la cantidad seleccionada
+                bandeja5.cantidad=variableCantidad.get()
+
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append([bandeja5.posBandeja,bandeja5.tipoBandeja,bandeja5.precio,bandeja5.cantidad])
+
+                #retorna el precio depende de la opcion elegida para sacar el total
+                return int(280)
+            #tabla 6
+            if(seleccion == 6):
+
+                #guarda la cantidad seleccionada
+                bandeja6.cantidad=variableCantidad.get()
+
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append([bandeja6.posBandeja,bandeja6.tipoBandeja,bandeja6.precio,bandeja6.cantidad])
+
+                #retorna el precio depende de la opcion elegida para sacar el total
+                return int(210)
+            #tabla 7
+            if(seleccion == 7):
+
+                #guarda la cantidad seleccionada
+                bandeja7.cantidad=variableCantidad.get()
+
+                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                pedido1.listaDePedidos.append([bandeja7.posBandeja,bandeja7.tipoBandeja,bandeja7.precio,bandeja7.cantidad])
+
+                #retorna el precio depende de la opcion elegida para sacar el total
+                return int(240)
+            
 
 
         #funcion para sacar total
