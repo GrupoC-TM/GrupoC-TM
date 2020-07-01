@@ -234,28 +234,28 @@ def pedidos_realizados():
         n=6
 
         #etiquetas y sus posicionamientos
-        label_2=Label(root1,text="ID")
+        label_2=Label(root1,text="ID:")
         label_2.grid(row=4,column=0,padx=30,pady=10)
 
-        label_3=Label(root1,text="Nombre")
+        label_3=Label(root1,text="Nombre:")
         label_3.grid(row=4,column=1,padx=30,pady=10)
 
-        label_4=Label(root1,text="EMAIL")
+        label_4=Label(root1,text="EMAIL:")
         label_4.grid(row=4,column=2,padx=10,pady=10)
 
-        label_5=Label(root1,text="Telefono")
+        label_5=Label(root1,text="Telefono:")
         label_5.grid(row=4,column=3,padx=20,pady=10)
 
-        label_6=Label(root1,text="Pedido")
+        label_6=Label(root1,text="Pedido:")
         label_6.grid(row=4,column=4,padx=5,pady=10)
 
-        label_7 = Label(root1,text="Total")
+        label_7 = Label(root1,text="Total:")
         label_7.grid(row=4,column=5,padx=90,pady=10)
 
-        label_8 = Label(root1,text="Direccion")
+        label_8 = Label(root1,text="Direccion:")
         label_8.grid(row=4,column=6,padx=10,pady=10)
 
-        label_9 = Label(root1,text="Estado")
+        label_9 = Label(root1,text="Estado:")
         label_9.grid(row=4,column=7,padx=10,pady=10)
 
         #for each que muestra los pedidos realizados hasta el final.
@@ -596,13 +596,13 @@ def Ordenar_pedido():
         Label_titulo.place(x=320,y=20)
 
         #crean los objetos de las bandejas
-        bandeja1 = Bandeja(1, " URAKAMI (roll-8 piezas) ", 380)
-        bandeja2 = Bandeja(2, "  GEISHAS (bocado-4 piezas) ", 250)
-        bandeja3 = Bandeja(3, "  TEMAKIS (cono-1 pieza) ", 200)
-        bandeja4 = Bandeja(4, "  HOSOMAKI (roll-6 piezas)", 210)
-        bandeja5 = Bandeja(5, "  SASHIMI (bocado-5 piezas) ", 280)
-        bandeja6 = Bandeja(6, " GUNKAN (bolitas-5 piezas)", 210)
-        bandeja7 = Bandeja(7, " NIGURI (bolitas-5 piezas)", 240)
+        bandeja1 = Bandeja(1, " URAKAMI (roll - 8 piezas) ", 380)
+        bandeja2 = Bandeja(2, "  GEISHAS (bocado - 4 piezas) ", 250)
+        bandeja3 = Bandeja(3, "  TEMAKIS (cono - 1 pieza) ", 200)
+        bandeja4 = Bandeja(4, "  HOSOMAKI (roll - 6 piezas)", 210)
+        bandeja5 = Bandeja(5, "  SASHIMI (bocado - 5 piezas) ", 280)
+        bandeja6 = Bandeja(6, " GUNKAN (bolitas - 5 piezas)", 210)
+        bandeja7 = Bandeja(7, " NIGURI (bolitas - 5 piezas)", 240)
 
         #crear objeto Pedidos para el pedido actual
         pedido1 = Pedidos()
@@ -619,19 +619,19 @@ def Ordenar_pedido():
             pass
 
 
-        #etiquetas
-        label_1=Label(root2,text="Nombre")
-        label_2=Label(root2,text="Pedido")
-        label_3=Label(root2,text="E-Mail")
-        label_4=Label(root2,text="Telefono")
-        label_5=Label(root2,text="Direccion")
+        #Etiquetas
+        label_1=Label(root2,text="Nombre:")
+        label_2=Label(root2,text="Pedido:")
+        label_3=Label(root2,text="E-Mail:")
+        label_4=Label(root2,text="Telefono:")
+        label_5=Label(root2,text="Direccion:")
         label_6=Label(root2,text="Cantidad:")
         label_7=Label(root2,text="Pago con:")
         label_AG=Label(root2,text="Carrito:")
 
 
 
-        #(lista) de opciones
+        # (lista) de opciones
 
         Opciones = [
             [bandeja1.posBandeja, bandeja1.tipoBandeja , bandeja1.precio],
@@ -643,7 +643,7 @@ def Ordenar_pedido():
             [bandeja7.posBandeja, bandeja7.tipoBandeja , bandeja7.precio]
         ]
 
-        #lista de cantidad
+        # lista de cantidad
         Cantidad = [
             1,
             2,
@@ -659,8 +659,8 @@ def Ordenar_pedido():
 
 
 
-        #menu para las opciones-------------------------------------------------------------------------------
-        #crea una variable para alojar la primer tabla
+        # Menu para las opciones-------------------------------------------------------------------------------
+        # Crea una variable para alojar la primer tabla
         variable = StringVar(root2)
 
 
@@ -671,103 +671,107 @@ def Ordenar_pedido():
         w = OptionMenu( *(root2, variable) + tuple(Opciones))
         w.grid(row=3,column=3,padx=10,pady=10)#se posiciona
 
-        #menu para la cantidad----------------------------------------------------------------------------------
-        #crea una variable para alojar la primer tabla
+        # Menu para la cantidad----------------------------------------------------------------------------------
+        # Crea una variable para alojar la primer tabla
         variableCantidad = StringVar(root2)
 
         # valor defecto 0 para mostrar la primera opcion si es que no se selecciona ninguna
         variableCantidad.set(Cantidad[0])
 
-        #crea el menu deplegable
+        #Crea el menu deplegable
         w2 = OptionMenu( *(root2, variableCantidad) + tuple(Cantidad))
         w2.grid(row=3,column=9,padx=10,pady=10)#se posiciona
 
 
-        #crea los campos de texto
-        #nombre
+        # Crea los campos de texto
+        # Nombre
         Entry_1=Entry(root2,width=50)
 
-        #Email
+        # Email
         Entry_2=Entry(root2,width=50)
 
-        #Telefono
+        # Telefono
         Entry_3=Entry(root2,width=50)
 
-        #direccion
+        # Direccion
         Entry_4=Entry(root2,width=50)
 
-        #pagoCon
+        # PagoCon
         Entry_5=Entry(root2,width=20)
 
 
         #------------------------------------------------------------------------------------------------------------------------------------------
-        #agregar labels al carrito:
+        # Agregar labels al carrito:
 
-        #listas para el total y el carrito
+        # Listas para el total y el carrito
         total=[]
         carrito=[]
 
-        #creo variable comando
+        # Creo variable comando
         commandAG2= lambda:mostrar()
 
 
-        #funcion para pintar los labels del carrito
+        # Funcion para pintar los labels del carrito
         def mostrar():
 
-            #obtiene la opcion seleccionada + la cantidad y la agrega a la lista carrito
+            # Obtiene la opcion seleccionada + la cantidad y la agrega a la lista carrito
             carrito.append([variable.get(),variableCantidad.get()])
 
-            #hasta el largo del carrito
+            # Hasta el largo del carrito
             for i in range(len(carrito)):
 
-                #mostrar el pedido del carrito en posicion i
+                # Mostrar el pedido del carrito en posicion i
                 label_00=Label(root2,text=str(carrito[i]))
 
-                #ubicarlo en columna 5+i ,( 5 porque en la etiqueta, carrito esta en la fila 5)
-                #y se muestra un label por fila
+                # Ubicarlo en columna 5+i ,( 5 porque en la etiqueta, carrito esta en la fila 5)
+                # Y se muestra un label por fila
                 label_00.grid(row=i+5,column=10,padx=10,pady=10)
 
-        #sacar el total
+        # Sacar el total
 
             listaPedidos = []
 
-            #a la lista pedidos agrego las tablas seleccionadas
+            # a la lista pedidos agrego las tablas seleccionadas
             listaPedidos.append(variable.get())
 
-            #print(int(listaPedidos[0][2]))#obtener el numero de la orden
+            # print(int(listaPedidos[0][2]))#obtener el numero de la orden
             total = 0
 
-            #devuelve el precio de la bandeja seleccionada por la cantidad
-            #se ejecuta la funcion tomarSeleccion que toma un int que es el primer numero
-            #que identifica la tabla de la listaPedidos por eso su posicion [0][1] por
-            #la cantidad seleccionada en el menu cantidad pero casteado a int.
-            #la funcion toma ese valor y nos devuelve el valor de la bandeja.
-            #depende el valor ingresado,son los valores que devuelve y los multiplica
-            #por la seleccion que hay en el menu de cantidad.todo se suma en total
+            # devuelve el precio de la bandeja seleccionada por la cantidad
+            # se ejecuta la funcion tomarSeleccion que toma un int que es el primer numero
+            # que identifica la tabla de la listaPedidos por eso su posicion [0][1] por
+            # la cantidad seleccionada en el menu cantidad pero casteado a int.
+            # la funcion toma ese valor y nos devuelve el valor de la bandeja.
+            # depende el valor ingresado,son los valores que devuelve y los multiplica
+            # por la seleccion que hay en el menu de cantidad.todo se suma en total
             total += tomarSeleccion(int(listaPedidos[0][1]))*int(variableCantidad.get())
 
-            #el total se va guardando en el objeto ya que por cada vez que agregamos al Carrito
-            #este cambia, y se acumula en el atributo total del objeto pedido1
+            # el total se va guardando en el objeto ya que por cada vez que agregamos al Carrito
+            # este cambia, y se acumula en el atributo total del objeto pedido1
             pedido1.total+=total
 
 
 
             #label total
+
             label_01=Label(root2,text=("Total: ",sacarTotal(total)))
             label_01.grid(row=7,column=4,padx=5,pady=10)
 
             #mostrar en consola resultados
+
             print("\nPedido")
             for er in pedido1.listaDePedidos:
                 print(er)
+
             #print(pedido1.listaDePedidos)
+
             print("Total:",pedido1.total)
 
         #-------------------------------------------------------------------------------------------------------------------------------------
 
-        #este es un backUp por las dudas
-        #el boton ordenar ejecuta la variable comando y esta ingresa datos en la base de datos
-        #Button_1=Button(root2,text="Ordenar",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=7,height=3,command=command)
+        # este es un backUp por las dudas
+        # el boton ordenar ejecuta la variable comando y esta ingresa datos en la base de datos
+        # Button_1=Button(root2,text="Ordenar",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",14,"bold"),bg="white",fg="black",borderwidth=4,width=7,height=3,command=command)
 
         #boton_AG "agregar al carrito"
         Button_AG=Button(root2,text="Agregar al carrito",activebackground="DeepSkyBlue3",relief=SUNKEN,font=("AndaleMono",10,"bold"),bg="white",fg="black",borderwidth=4,width=17,height=2,command=commandAG2)
@@ -777,25 +781,25 @@ def Ordenar_pedido():
         #nombre
         label_1.grid(row=2,column=2,padx=10,pady=10)
 
-        #pedido
+        #pedido:
         label_2.grid(row=3,column=2,padx=10,pady=10)
 
-        #EMail
+        #EMail:
         label_3.grid(row=4,column=2,padx=10,pady=10)
 
-        #telefono
+        #telefono:
         label_4.grid(row=5,column=2,padx=10,pady=10)
 
-        #Direccion
+        #Direccion:
         label_5.grid(row=6,column=2,padx=10,pady=10)
 
-        #Cantidad
+        #Cantidad:
         label_6.grid(row=3,column=6,padx=10,pady=10)
 
-        #PagoCon
+        #PagoCon:
         label_7.grid(row=7,column=2,padx=10,pady=10)
 
-        #Carrito
+        #Carrito:
         label_AG.grid(row=4,column=10,padx=10,pady=10)
 
 
@@ -854,21 +858,21 @@ def Ordenar_pedido():
             #tabla 3
             if(seleccion == 3):
 
-                #guarda la cantidad seleccionada
+                # guarda la cantidad seleccionada
                 bandeja3.cantidad=variableCantidad.get()
 
-                #guarda el carito o lista de comprar en una lista actual de este nuevo pedido
+                # guarda el carito o lista de comprar en una lista actual de este nuevo pedido
                 pedido1.listaDePedidos.append([bandeja3.posBandeja,bandeja3.tipoBandeja,bandeja3.precio,bandeja3.cantidad])
 
-                #retorna el precio depende de la opcion elegida para sacar el total
+                # retorna el precio depende de la opcion elegida para sacar el total
                 return int(200)
             #tabla 4
             if(seleccion == 4):
 
-                #guarda la cantidad seleccionada
+                # guarda la cantidad seleccionada
                 bandeja4.cantidad = variableCantidad.get()
 
-                #guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
+                # guarda el carrito o lista de comprar en una lista actual de este nuevo pedido
                 pedido1.listaDePedidos.append(
                     [bandeja4.posBandeja, bandeja4.tipoBandeja, bandeja4.precio, bandeja4.cantidad])
 
@@ -1089,7 +1093,7 @@ def Caja():
 
         print("Caja:")
         for row2 in c.execute('select * from Estado'):
-            
+
                 n+=1
 
                 if(row2[1] == "En camino"):
