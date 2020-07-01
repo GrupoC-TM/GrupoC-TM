@@ -258,51 +258,51 @@ def pedidos_realizados():
         label_9 = Label(root1,text="Estado:")
         label_9.grid(row=4,column=7,padx=10,pady=10)
 
-        #for each que muestra los pedidos realizados hasta el final.
-        #obtiene el panel completo y la variable row1 es una fila del Panel
-        #que baja por cada vuelta del for y obtiene sus datos
+        # For each que muestra los pedidos realizados hasta el final.
+        # Obtiene el panel completo y la variable row1 es una fila del Panel
+        # Que baja por cada vuelta del for y obtiene sus datos
         print("\nPedidos realizados:")
         for row1 in c.execute('select * from Panel'):
                 n+=1
 
-                #ID
+                # ID
                 label_10=Label(root1,text=str(row1[0]),justify="left")
                 label_10.grid(row=n,column=0,padx=0,pady=10)
                 print("--------------------------------------------------------------------")
                 print("\nID: "+str(row1[0]))
 
-                #Nombre
+                # Nombre
                 label_11=Label(root1,text=str(row1[1]))
                 label_11.grid(row=n,column=1,padx=10,pady=10)
                 print("Nombre: "+str(row1[1]))
 
-                #EMAIL
+                # EMAIL
                 label_12=Label(root1,text=str(row1[2]))
                 label_12.grid(row=n,column=2,padx=10,pady=10)
                 print("Email: "+str(row1[2]))
 
-                #Telefono
+                # Telefono
                 label_13=Label(root1,text=str(row1[3]))
                 label_13.grid(row=n,column=3,padx=10,pady=10)
                 print("Telefono: "+str(row1[3]))
 
-                #Pedido + costo
+                # Pedido + costo
                 label_14=Label(root1,text=str(row1[4])+" \nPaga Con:"+str(row1[6]))
                 label_14.grid(row=n,column=4,padx=5,pady=10)
                 print("Pedido: "+str(row1[4]))
                 print("Paga Con:"+str(row1[6]))
 
-                #Total
+                # Total
                 label_15=Label(root1,text=str(row1[5]))
                 label_15.grid(row=n,column=5,padx=10,pady=10)
                 print("Total: "+str(row1[5]))
 
-                #Direccion
+                # Direccion
                 label_16=Label(root1,text=str(row1[8]))
                 label_16.grid(row=n,column=6,padx=10,pady=10)
                 print("Direccion: "+str(row1[8]))
 
-                #Estado
+                # Estado
                 label_17=Label(root1,text=str(row1[7]))
                 label_17.grid(row=n,column=7,padx=10,pady=10)
                 print("Estado: "+str(row1[7]))
@@ -311,35 +311,35 @@ def pedidos_realizados():
 
 
 
-        #etiqueta despachar
+        # Etiqueta despachar
         label_18=Label(root1,text="Despachar el pedido con el ID:",fg="white",bg="black")
         label_18.grid(row=2,column=6,padx=10,pady=10)
 
-        #se crea lista de ides
+        # Se crea lista de ides
         listaID = []
 
-        #agarrar todo los ides de los pedidos y alojarlos en la listaID
-        #tabla Panel
+        # Agarrar todo los ides de los pedidos y alojarlos en la listaID
+        # Tabla Panel
         for id in c.execute('select * from Panel'):
 
-            #los ides estan en la posicion 0 de la tabla Panel
+        # Los ides estan en la posicion 0 de la tabla Panel
 
             listaID += [id[0]]
 
 
-        #crea una variable string var para alojar los id en forma de string
+        # Crea una variable string var para alojar los id en forma de string
         variable = StringVar(root1)
 
-        #guarda el primer id de la lista
-        # valor por defecto el 0 para que el menu desplegable muestra el primer id
-        #cuando no se selecciona ninguna opcion
+        # Guarda el primer id de la lista
+        # Valor por defecto el 0 para que el menu desplegable muestra el primer id
+        # Cuando no se selecciona ninguna opcion
         try:
             variable.set(listaID[0])
 
-            #crea el menu deplegable de ID
-            #se pasa la variable de por defecto y  se le agrega una tupla con todos los ID
+            # Crea el menu deplegable de ID
+            # Se pasa la variable de por defecto y  se le agrega una tupla con todos los ID
             w = OptionMenu( *(root1, variable) + tuple(listaID))
-            w.grid(row=2,column=7,padx=10,pady=10)#se posiciona
+            w.grid(row=2,column=7,padx=10,pady=10)# Se posiciona
 
         except Exception as e:
             tkMessageBox.showinfo(
@@ -350,46 +350,46 @@ def pedidos_realizados():
 
 
 
-        #command del boton  para despachar pedidos(funcion estado())
+        # Command del boton  para despachar pedidos(funcion estado())
         commanDesp = lambda: estado()
 
-        #se crea el boton despachar
+        # Se crea el boton despachar
         BotonDespachar=Button(root1,text="Despachar",activebackground="DeepSkyBlue3",command=commanDesp)
         BotonDespachar.grid(row=2,column=8,padx=10,pady=10)
 
-        #funcion para modificar el estado y despachar de la lista de pedidos
+        # Funcion para modificar el estado y despachar de la lista de pedidos
         def estado():
 
-            #for each que se trae todo de Estado y recorre cada fila con el objeto "id"
+            #For each que se trae todo de Estado y recorre cada fila con el objeto "id"
             for id in c.execute('select * from Estado'):
 
-                #si el id actual es igual al id seleccionado
+                # Si el id actual es igual al id seleccionado
                 if(id[0]==int(variable.get())):
 
-                    #guardo en una lista el estado y el id para el update,ya que solo recibe 2 parametros el execute
+                    # Guardo en una lista el estado y el id para el update,ya que solo recibe 2 parametros el execute
                     list3=["En camino",id[0]]#Id actual
 
-                    #actualizo el estado del pedido y le paso la lista
+                    # Actualizo el estado del pedido y le paso la lista
                     c.execute('UPDATE Estado SET estado = (?) where ID = (?)',list3)
 
-                    #commit final de la base de datos
+                    # Commit final de la base de datos
                     conn.commit()
 
-            #eliminar el pedido de la lista de pedidos al apretar el boton despacharPedido
-            #for each que se trae todo de panel y recorre cada fila con el objeto id
+            # Eliminar el pedido de la lista de pedidos al apretar el boton despacharPedido
+            # For each que se trae todo de panel y recorre cada fila con el objeto id
             for id in c.execute('select * from Panel'):
 
-                #si el id actual es igual al id seleccionado
+                # Si el id actual es igual al id seleccionado
                 if(id[0]==int(variable.get())):
 
-                    #siempre tengo que hacer una lista porque sino la base de datos da error
-                    #*insertar una lista
+                    # Siempre tengo que hacer una lista porque sino la base de datos da error
+                    # Insertar una lista
                     listNum=[id[0]]
 
-                    #borro de Panel la fila en la cual tengo el id en la listaNum
+                    # Borro de Panel la fila en la cual tengo el id en la listaNum
                     c.execute('DELETE FROM Panel where ID =  (?)',listNum)
 
-                    #commit final de la base de datos
+                    # Commit final de la base de datos
                     conn.commit()
 
                     tkMessageBox.showinfo("", "ID de la Orden :"+str(
@@ -428,33 +428,33 @@ def img():
 
 
 
-#ver el estado del pedido
+# ver el estado del pedido
 def track_pedido():
 
-        #crea la ventana
+        # crea la ventana
         root=Tk()
         RTitle=root.title("Estado del pedido")
 
-        #etiqueta
+        # etiqueta
         label_1=Label(root,text="ID del pedido")
         label_1.grid(row=2,column=2,padx=10,pady=10)
 
-        #campo de texto
+        # campo de texto
         Entry_1=Entry(root,width=50)
         Entry_1.grid(row=2,column=3,padx=10,pady=10,columnspan=3)
 
-        #variable comando para el boton,la siguiente funcion verifica que exista el id del pedido
-        #y se le pasa por parametro el id que se ingresa en el campo de texto
+        # variable comando para el boton,la siguiente funcion verifica que exista el id del pedido
+        # y se le pasa por parametro el id que se ingresa en el campo de texto
         command2=lambda :traerEstado(Entry_1.get())
 
-        #boton de trackeo de orden
+        # boton de trackeo de orden
         Button_1=Button(root,text="Verificar",command=command2)
         Button_1.grid(row=4,column=2,padx=10,pady=10)
 
-        #conectar con la base de datos
+        # conectar con la base de datos
         conn=sqlite3.connect('INARI_DB.db')#variable de coneccion a la base de datos
 
-        #variable cursor
+        # variable cursor
         c=conn.cursor()
 
         print("\nEstado del pedido:")
@@ -579,6 +579,77 @@ def ordenes_canceladas():
 
         root1.mainloop()
 
+# Ventana mostrar Caja
+def Caja():
+        # Configuracion base de la ventana
+        rootCaja=Tk()
+        rootCaja.configure(background="orange red")
+        RTitle=rootCaja.title("Caja")
+        RWidth=600
+        RHeight=900
+        rootCaja.geometry(("%dx%d")%(RWidth,RHeight))
+
+        # Label titulo
+        LabelTitulo = Label(rootCaja,text="INARI SUSHI\nCAJA",font=("AndaleMono",20,"bold"))
+
+        # LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
+        LabelTitulo.grid(row=0,column=3,padx=10,pady=10)
+
+        # Etiquetas fijas
+        # ID
+        label_1=Label(rootCaja,text="ID:")
+        label_1.grid(row=4,column=3,padx=10,pady=10)
+
+        # total
+        label_2=Label(rootCaja,text="Total de cada pedido:")
+        label_2.grid(row=4,column=5,padx=10,pady=10)
+
+        n = 6
+        cierre = 0
+
+        # se crea la variable coneccion
+        conn=sqlite3.connect('INARI_DB.db')
+
+        # se crea el cursor
+        c=conn.cursor()
+
+        print("Caja:")
+        for row2 in c.execute('select * from Estado'):
+
+                n+=1
+
+                if(row2[1] == "En camino"):
+
+                    #ID
+                    label_3=Label(rootCaja,text=str(row2[0]),justify="left")
+                    label_3.grid(row=n,column=3,padx=0,pady=10)
+                    print("ID:"+str(row2[0]))
+
+                    #total
+                    label_4=Label(rootCaja,text=str(row2[2]),justify="left")
+                    label_4.grid(row=n,column=5,padx=0,pady=10)
+                    print("Total del pedido:"+str(row2[2]))
+
+                    cierre+=int(row2[2])
+
+        #total
+        label_4=Label(rootCaja,text="cierre de caja del dia con:",justify="left")
+        label_4.grid(row=0,column=6,padx=10,pady=10)
+
+
+        #mostrar cierre
+        print("Cierre de la caja: "+str(cierre))
+
+
+        #total 2
+        label_4=Label(rootCaja,text="$"+str(cierre),justify="left")
+        label_4.grid(row=0,column=7,padx=10,pady=10)
+
+
+        #cerrar la coneccion
+        conn.close()
+
+        rootCaja.mainloop()
 
 
 #funcion para ordenar pedidos
@@ -1054,81 +1125,6 @@ def Ordenar_pedido():
                 print("Orden realizada! \nID de la Orden: "+str(Telefono)+"\nVuelto:"+str(int(pagoCon)-int(costo)))
 
         root2.mainloop()
-
-
-
-#ventana mostrar Caja
-def Caja():
-        #configuracion base de la ventana
-        rootCaja=Tk()
-        rootCaja.configure(background="orange red")
-        RTitle=rootCaja.title("Caja")
-        RWidth=600
-        RHeight=900
-        rootCaja.geometry(("%dx%d")%(RWidth,RHeight))
-
-        #Label titulo
-        LabelTitulo = Label(rootCaja,text="INARI SUSHI\nCAJA",font=("AndaleMono",20,"bold"))
-
-        #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
-        LabelTitulo.grid(row=0,column=3,padx=10,pady=10)
-
-        #Etiquetas fijas
-        #ID
-        label_1=Label(rootCaja,text="ID:")
-        label_1.grid(row=4,column=3,padx=10,pady=10)
-
-        #total
-        label_2=Label(rootCaja,text="Total de cada pedido:")
-        label_2.grid(row=4,column=5,padx=10,pady=10)
-
-        n = 6
-        cierre = 0
-
-        #se crea la variable coneccion
-        conn=sqlite3.connect('INARI_DB.db')
-
-        #se crea el cursor
-        c=conn.cursor()
-
-        print("Caja:")
-        for row2 in c.execute('select * from Estado'):
-
-                n+=1
-
-                if(row2[1] == "En camino"):
-
-                    #ID
-                    label_3=Label(rootCaja,text=str(row2[0]),justify="left")
-                    label_3.grid(row=n,column=3,padx=0,pady=10)
-                    print("ID:"+str(row2[0]))
-
-                    #total
-                    label_4=Label(rootCaja,text=str(row2[2]),justify="left")
-                    label_4.grid(row=n,column=5,padx=0,pady=10)
-                    print("Total del pedido:"+str(row2[2]))
-
-                    cierre+=int(row2[2])
-
-        #total
-        label_4=Label(rootCaja,text="cierre de caja del dia con:",justify="left")
-        label_4.grid(row=0,column=6,padx=10,pady=10)
-
-
-        #mostrar cierre
-        print("Cierre de la caja: "+str(cierre))
-
-
-        #total 2
-        label_4=Label(rootCaja,text="$"+str(cierre),justify="left")
-        label_4.grid(row=0,column=7,padx=10,pady=10)
-
-
-        #cerrar la coneccion
-        conn.close()
-
-        rootCaja.mainloop()
-
 
 
 #ventana cliente
