@@ -1,4 +1,10 @@
 #La sintaxis del import varia segun la version de Tkinter/Python
+"""Tener en cuenta!!!,el programa no da errores pero si se produce error de coneccion
+    de base de datos o de imagen no encontrada, puede ser la version de linux,
+    en este caso debe colocar el archivo .db y la imagen en la carpeta Documentos de su pc.
+    para evitar otro tipo de errores como el de 'modulo tkinter no encontrado' puede que no
+    tenga instalado este modulo o su version sea vieja,depende de la version cambia el import
+    de las siguientes 2 lineas comentadas, sino seguir las instrucciones del informe para instalarlo """
 #from tkinter import *
 #import tkinter as tk
 from Tkinter import *
@@ -102,6 +108,7 @@ def Borrar_en_DB(pid):
             #mostrar mensaje de que la orden ha sido cancelada
             tkMessageBox.showinfo(
                 "", "ID de la orden:  "+str(lpid)+" ha sido cancelada!")
+            print("ID de la orden:  "+str(lpid)+" ha sido cancelada!")
 
             #commit final de la base de datos
             conn.commit()
@@ -145,7 +152,7 @@ def Borrar_en_DB(pid):
                     #falta agregar el total
                     #-------------------------------------------------------------------------------------------------------
 
-                    listCanceladoCamino=[(pid),("-"),(pid),("-"),("cancelado en el\ncamino"),(0),(0),(0),(0)]
+                    listCanceladoCamino=[(pid),("-"),("-"),(pid),("cancelado en el\ncamino"),(0),(0),(0),(0)]
                     #listCanceladoCamino=[[pid],["Cancelado"],["en"],["el"],["camino"],["-"],["-"],["-"],["-"]]
 
                     #enviar a lista cancelado si se cancela en el camino
@@ -164,9 +171,10 @@ def Borrar_en_DB(pid):
                     conn.close()
 
                     tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" ha sido cancelada!")
+                    print("ID de la orden:  "+str(lpid)+" ha sido cancelada!")
                 else:
                     tkMessageBox.showinfo("","ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
-
+                    print("ID de la orden:  "+str(lpid)+" \n no existe o ya ha sido cancelado")
             #en caso de que no exista en ninguna de las tablas entonces el id ingresado
             #es incorrecto,por lo tanto no existe pedido con ese id
             except Exception as e:
@@ -212,8 +220,8 @@ def pedidos_realizados():
 
 
         #etiqueta del titulo
-        label_1=Label(root1,text="Descripcion de pedidos realizados:")
-        label_1.grid(row=2,column=2,padx=10,pady=10)
+        label_1=Label(root1,text="Descripcion de pedidos realizados:",fg="white",bg="black")
+        label_1.place(x=20,y=15)
 
         #variable de coneccion a la base de datos
         conn=sqlite3.connect('INARI_DB.db')
@@ -239,63 +247,73 @@ def pedidos_realizados():
         label_5.grid(row=4,column=3,padx=20,pady=10)
 
         label_6=Label(root1,text="Pedido")
-        label_6.grid(row=4,column=4,padx=10,pady=10)
+        label_6.grid(row=4,column=4,padx=5,pady=10)
 
         label_7 = Label(root1,text="Total")
-        label_7.grid(row=4,column=7,padx=90,pady=10)
+        label_7.grid(row=4,column=5,padx=90,pady=10)
 
         label_8 = Label(root1,text="Direccion")
-        label_8.grid(row=4,column=9,padx=10,pady=10)
+        label_8.grid(row=4,column=6,padx=10,pady=10)
 
         label_9 = Label(root1,text="Estado")
-        label_9.grid(row=4,column=10,padx=10,pady=10)
+        label_9.grid(row=4,column=7,padx=10,pady=10)
 
         #for each que muestra los pedidos realizados hasta el final.
         #obtiene el panel completo y la variable row1 es una fila del Panel
         #que baja por cada vuelta del for y obtiene sus datos
+        print("\nPedidos realizados:")
         for row1 in c.execute('select * from Panel'):
                 n+=1
 
                 #ID
                 label_10=Label(root1,text=str(row1[0]),justify="left")
                 label_10.grid(row=n,column=0,padx=0,pady=10)
+                print("--------------------------------------------------------------------")
+                print("\nID: "+str(row1[0]))
 
                 #Nombre
                 label_11=Label(root1,text=str(row1[1]))
                 label_11.grid(row=n,column=1,padx=10,pady=10)
+                print("Nombre: "+str(row1[1]))
 
                 #EMAIL
                 label_12=Label(root1,text=str(row1[2]))
                 label_12.grid(row=n,column=2,padx=10,pady=10)
+                print("Email: "+str(row1[2]))
 
                 #Telefono
                 label_13=Label(root1,text=str(row1[3]))
                 label_13.grid(row=n,column=3,padx=10,pady=10)
+                print("Telefono: "+str(row1[3]))
 
                 #Pedido + costo
                 label_14=Label(root1,text=str(row1[4])+" \nPaga Con:"+str(row1[6]))
-                label_14.grid(row=n,column=4,padx=10,pady=10)
-
+                label_14.grid(row=n,column=4,padx=5,pady=10)
+                print("Pedido: "+str(row1[4]))
+                print("Paga Con:"+str(row1[6]))
 
                 #Total
                 label_15=Label(root1,text=str(row1[5]))
-                label_15.grid(row=n,column=7,padx=10,pady=10)
+                label_15.grid(row=n,column=5,padx=10,pady=10)
+                print("Total: "+str(row1[5]))
 
                 #Direccion
                 label_16=Label(root1,text=str(row1[8]))
-                label_16.grid(row=n,column=9,padx=10,pady=10)
+                label_16.grid(row=n,column=6,padx=10,pady=10)
+                print("Direccion: "+str(row1[8]))
 
                 #Estado
                 label_17=Label(root1,text=str(row1[7]))
-                label_17.grid(row=n,column=10,padx=10,pady=10)
-
+                label_17.grid(row=n,column=7,padx=10,pady=10)
+                print("Estado: "+str(row1[7]))
+                print("--------------------------------------------------------------------")
 
 
 
 
         #etiqueta despachar
-        label_18=Label(root1,text="Despachar el pedido:")
-        label_18.grid(row=2,column=11,padx=10,pady=10)
+        label_18=Label(root1,text="Despachar el pedido con el ID:",fg="white",bg="black")
+        label_18.grid(row=2,column=6,padx=10,pady=10)
 
         #se crea lista de ides
         listaID = []
@@ -307,8 +325,6 @@ def pedidos_realizados():
             #los ides estan en la posicion 0 de la tabla Panel
 
             listaID += [id[0]]
-
-
 
 
         #crea una variable string var para alojar los id en forma de string
@@ -323,11 +339,12 @@ def pedidos_realizados():
             #crea el menu deplegable de ID
             #se pasa la variable de por defecto y  se le agrega una tupla con todos los ID
             w = OptionMenu( *(root1, variable) + tuple(listaID))
-            w.grid(row=3,column=11,padx=10,pady=10)#se posiciona
+            w.grid(row=2,column=7,padx=10,pady=10)#se posiciona
 
         except Exception as e:
             tkMessageBox.showinfo(
                 "", "no hay ningun pedido realizado! :(")
+            print("no hay ningun pedido realizado! :(")
 
 
 
@@ -337,8 +354,8 @@ def pedidos_realizados():
         commanDesp = lambda: estado()
 
         #se crea el boton despachar
-        BotonDespachar=Button(root1,text="Despachar",command=commanDesp)
-        BotonDespachar.grid(row=3,column=12,padx=10,pady=10)
+        BotonDespachar=Button(root1,text="Despachar",activebackground="DeepSkyBlue3",command=commanDesp)
+        BotonDespachar.grid(row=2,column=8,padx=10,pady=10)
 
         #funcion para modificar el estado y despachar de la lista de pedidos
         def estado():
@@ -377,14 +394,18 @@ def pedidos_realizados():
 
                     tkMessageBox.showinfo("", "ID de la Orden :"+str(
                         listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
+                    print("ID de la Orden :"+str(
+                        listNum)+" ha sido despachado!\n vuelva a entrar a 'Pedidos realizados' para actualizar los datos!")
 
+        #cerrar la coneccion,no cerrar sino va a dar error,se cierra mas arriba
+        #conn.close()
 
         root1.mainloop()
 
 
 '''
 #funcion que dejo para mostrar como agregar una imagen
-def abc():
+def img():
         #si queres se crea una ventana
         root=Toplevel()
         root.configure(background="orange")
@@ -436,6 +457,8 @@ def track_pedido():
         #variable cursor
         c=conn.cursor()
 
+        print("\nEstado del pedido:")
+
         #mostrar estado del pedido
         def traerEstado(id):
 
@@ -450,6 +473,7 @@ def track_pedido():
                     print(columna[0])#se muestra en consola para verificar
 
                     tkMessageBox.showinfo("","Su pedido esta :"+str(columna[1])+" :D")
+                    print("Su pedido esta :"+str(columna[1])+" :D")
 
                     #el validador cambia a true para que no se ejecute el if siguiente
                     validador=TRUE
@@ -458,8 +482,11 @@ def track_pedido():
             if(validador==FALSE):
                 tkMessageBox.showinfo(
                     "", "No existe ningun pedido con el id :  "+str(id))
+                print("No existe ningun pedido con el id :  "+str(id))
 
-            #Cerrar la coneccion
+
+        #cerrar la coneccion,no cerrar sino da error
+        #conn.close()
 
         root.mainloop()
 
@@ -495,7 +522,7 @@ def ordenes_canceladas():
         label_3=Label(root1,text="Nombre")
         label_3.grid(row=4,column=1,padx=10,pady=10)
 
-        label_4=Label(root1,text="EMAIL")
+        label_4=Label(root1,text="Email")
         label_4.grid(row=4,column=2,padx=10,pady=10)
 
         label_5=Label(root1,text="Telefono")
@@ -507,33 +534,48 @@ def ordenes_canceladas():
         label_7=Label(root1,text="Total")
         label_7.grid(row=4,column=6,padx=10,pady=10)
 
+
+
         #muestra todas las ordenes canceladas hasta el final, agregando labels automatico
+        print("\nOrdenes Canceladas:")
         for row1 in c.execute('select * from Cancelado'):
                 n+=1
 
                 #ID
                 label_7=Label(root1,text=str(row1[0]),justify="left")
                 label_7.grid(row=n,column=0,padx=0,pady=10)
+                print("-----------------------------------------")
+                print("\nID: "+str(row1[0]))
 
                 #Nombre
                 label_8=Label(root1,text=str(row1[1]))
                 label_8.grid(row=n,column=1,padx=10,pady=10)
+                print("Nombre: "+str(row1[1]))
 
                 #Email
                 label_9=Label(root1,text=str(row1[2]))
                 label_9.grid(row=n,column=2,padx=10,pady=10)
+                print("Email: "+str(row1[2]))
 
                 #Telefono
                 label_10=Label(root1,text=str(row1[3]))
                 label_10.grid(row=n,column=3,padx=10,pady=10)
+                print("Telefono: "+str(row1[3]))
 
                 #Bandeja
                 label_11=Label(root1,text=str(row1[4]))
                 label_11.grid(row=n,column=4,padx=10,pady=10)
+                print("Bandeja: "+str(row1[4]))
 
                 #Total
                 label_12=Label(root1,text=str(row1[5]))
                 label_12.grid(row=n,column=6,padx=10,pady=10)
+                print("Total: "+str(row1[5]))
+                print("-----------------------------------------")
+
+
+        #cerrar la coneccion
+        conn.close()
 
         root1.mainloop()
 
@@ -545,10 +587,13 @@ def Ordenar_pedido():
         root2=Tk()
         root2.configure(background="Orange red")
         RTitle=root2.title("Nueva Orden")
-        RWidth=900
+        RWidth=1000
         RHeight=500
         root2.geometry(("%dx%d")%(RWidth,RHeight))
         var1=IntVar() #en caso de error descomentar
+
+        Label_titulo=Label(root2,text="INARI PEDIDOS",font=("AndaleMono",20,"bold"),fg="white",bg="black")
+        Label_titulo.place(x=320,y=20)
 
         #crean los objetos de las bandejas
         bandeja1 = Bandeja(1, " URAKAMI (roll-8 piezas) ", 380)
@@ -712,7 +757,7 @@ def Ordenar_pedido():
             label_01.grid(row=7,column=4,padx=5,pady=10)
 
             #mostrar en consola resultados
-            print("\nPedidos")
+            print("\nPedido")
             for er in pedido1.listaDePedidos:
                 print(er)
             #print(pedido1.listaDePedidos)
@@ -902,11 +947,6 @@ def Ordenar_pedido():
 
 
 
-        #Agregar etiqueta de titulo
-
-
-
-
 
 
         #funcion que inserta los datos en la base de datos
@@ -950,17 +990,24 @@ def Ordenar_pedido():
 
                 tkMessageBox.showinfo(
                     "", "Ingrese un numero de telefono valido")
+                print("Ingrese un numero de telefono valido")
 
             #validador de PagoCon
+            try:
 
-            if  (int(pagoCon)>=costo):
+                if  (int(pagoCon)>=costo):
 
-                valPagocon=True
+                    valPagocon=True
 
-            else:
+                else:
 
+                    tkMessageBox.showinfo(
+                        "", "Pago insuficiente \nFaltan: $"+str(int(costo)-int(pagoCon)))
+            except Exception as e:
                 tkMessageBox.showinfo(
-                    "", "Pago invalido o insuficiente")
+                    "", "El Pago ingresado es invalido ")
+                print("El Pago ingresado es invalido ")
+
 
             #validador de correo
             #aca el len devuelve el largo del String
@@ -975,12 +1022,23 @@ def Ordenar_pedido():
 
             	tkMessageBox.showinfo(
                 "", "Correo ingresado no valido")
+                print("Correo ingresado no valido")
 
-            #Validacion de telefono y pago con
+            #Validacion de telefono ,pago con y correo
 
             if (valTelefono)and(valPagocon)and(valCorreo):
 
                 Insertar_en_DB(Nombre,Email,Telefono,cadena,costo,pagoCon,Estado,direccion)
+                print("""Pedido Realizado!:
+                \nNombre: """+str(Nombre)+"""
+                \nEmail: """+str(Email)+""")
+                \nID-Telefono: """+str(Telefono)+""")
+                \nPedido: """+str(cadena)+""")
+                \nCosto: """+str(costo)+""")
+                \nPago con: """+str(pagoCon)+""")
+                \nEstado: """+str(Estado)+""")
+                \nDireccion: """+str(direccion)+""")
+                \nVuelto: """+str(int(pagoCon)-int(costo)))
 
                 #insertar en tabla estado el id, el estado y costo
                 insertar_en_Estado(Telefono,Estado,costo)
@@ -988,8 +1046,8 @@ def Ordenar_pedido():
                 destruir_ventana(root2)
 
                 tkMessageBox.showinfo(
-                    "", "Orden realizada! \nID de la Orden: "+str(Telefono))
-
+                    "", "Orden realizada! \nID de la Orden: "+str(Telefono)+"\nVuelto:"+str(int(pagoCon)-int(costo)))
+                print("Orden realizada! \nID de la Orden: "+str(Telefono)+"\nVuelto:"+str(int(pagoCon)-int(costo)))
 
         root2.mainloop()
 
@@ -1029,16 +1087,22 @@ def Caja():
         #se crea el cursor
         c=conn.cursor()
 
+        print("Caja:")
         for row2 in c.execute('select * from Estado'):
+            
                 n+=1
+
                 if(row2[1] == "En camino"):
+
                     #ID
                     label_3=Label(rootCaja,text=str(row2[0]),justify="left")
                     label_3.grid(row=n,column=3,padx=0,pady=10)
+                    print("ID:"+str(row2[0]))
 
                     #total
                     label_4=Label(rootCaja,text=str(row2[2]),justify="left")
                     label_4.grid(row=n,column=5,padx=0,pady=10)
+                    print("Total del pedido:"+str(row2[2]))
 
                     cierre+=int(row2[2])
 
@@ -1047,16 +1111,19 @@ def Caja():
         label_4.grid(row=0,column=6,padx=10,pady=10)
 
 
-
+        #mostrar cierre
+        print("Cierre de la caja: "+str(cierre))
 
 
         #total 2
         label_4=Label(rootCaja,text="$"+str(cierre),justify="left")
         label_4.grid(row=0,column=7,padx=10,pady=10)
-        print(cierre)
 
 
+        #cerrar la coneccion
+        conn.close()
 
+        rootCaja.mainloop()
 
 
 
@@ -1074,10 +1141,13 @@ def cliente():
         image = image.subsample(1, 1)
         label = tk.Label(image=image)
         label.place(x=0, y=0, relwidth=1.0, relheight=1.0)"""
+
+
         #Label titulo
         LabelTitulo = Label(root,text="INARI SUSHI\nBienvenido!!!",font=("AndaleMono",50,"bold"))
         #LabelTitulo.grid(row=0,column=2,padx=3,pady=10)
         LabelTitulo.place(x= 140,y =30)
+
 
         #variables comando para abrir ventanas
         command=lambda :Ordenar_pedido()
@@ -1118,6 +1188,7 @@ def acerca_de():
 
     texto = Text(rootAC, width=60, height=26, bg="white", fg="black", font=("Consolas",12))
     texto.grid(row=0, column=0, pady=0, padx=0)
+
     texto.insert("insert", """*********************INARI SUSHI****************************
             \nEste software fue realizado como proyecto para la promocion de la materia 'Metodologiade la investigacion' de la        universidad tecnologica nacional de Mendoza Argentina.
              \n\nEste fue desarrollado por el siguiente grupo de alumnos:
@@ -1126,6 +1197,9 @@ def acerca_de():
              \nCandia Mauro
              \nRoza Joaquin
              \n\nEl software consiste en un delivery de sushi para el local  INARI el cual se tiene las funciones necesarias y mayormente requeridas para un delivery""")
+
+
+    rootAC.mainloop()
 
 
 
