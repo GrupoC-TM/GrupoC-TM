@@ -108,7 +108,7 @@ def Borrar_en_DB(pid):
             #mostrar mensaje de que la orden ha sido cancelada
             tkMessageBox.showinfo(
                 "", "ID de la orden:  "+str(lpid)+" ha sido cancelada!")
-            print("ID de la orden:  "+str(lpid)+" ha sido cancelada!")
+            #print("ID de la orden:  "+str(lpid)+" ha sido cancelada!")
 
             #commit final de la base de datos
             conn.commit()
@@ -1065,7 +1065,7 @@ def Ordenar_pedido():
 
                 tkMessageBox.showinfo(
                     "", "Ingrese un numero de telefono valido")
-                print("Ingrese un numero de telefono valido")
+                #print("Ingrese un numero de telefono valido")
 
             #validador de PagoCon
             try:
@@ -1081,7 +1081,7 @@ def Ordenar_pedido():
             except Exception as e:
                 tkMessageBox.showinfo(
                     "", "El Pago ingresado es invalido ")
-                print("El Pago ingresado es invalido ")
+                #print("El Pago ingresado es invalido ")
 
 
             #validador de correo
@@ -1097,7 +1097,7 @@ def Ordenar_pedido():
 
             	tkMessageBox.showinfo(
                 "", "Correo ingresado no valido")
-                print("Correo ingresado no valido")
+                #print("Correo ingresado no valido")
 
             #Validacion de telefono ,pago con y correo
 
